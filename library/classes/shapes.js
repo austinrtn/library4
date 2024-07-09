@@ -30,12 +30,10 @@ class Shape extends Item{
         this.detections = {}
         this.detectionFunctions = [];
         this.updateFunctions = [];
-
     }
 
     update(){
-        this.loopUpdateFunctions();
-        this.updateCollision();
+        this.updateLoop();
     }
 
     onCollision(item){
@@ -55,11 +53,12 @@ class Shape extends Item{
         return null;
     }
 
-    loopUpdateFunctions(){
+    updateLoop(){
         for(let i = 0; i < this.updateFunctions.length; i++){
             let func = this.updateFunctions[i];
             func(this);
         }
+         this.updateCollision();
     }
 }
 

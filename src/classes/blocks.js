@@ -7,9 +7,6 @@ export class Platform extends Rectangle{
         this.isFloor = true;
         this.isWall = true;
         this.isCeiling = true;
-
-        new Movement(this, null);
-        
        
     }
 

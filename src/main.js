@@ -27,23 +27,17 @@ App.start(()=>{
     platform4 = new Platform( 375, 550, 25, 50, 'red')
     ceiling = new Platform(200, 650, 25, 10, 'blue')
 
-    platform2.updateFunctions.push(()=>{
-        platform2.vX = -1
-    })
-
-    sp = new SpawnPoint(25,25,player);
+    sp = new SpawnPoint(25,600,player);
     sp.load();
 
     gp = new GravityProccessor(0.05, 5);
     App.createItems(player, floor, platform2, platform3,platform4, ceiling, sp);
     gp.addItem(player);
-
 })
 
 App.update(()=>{
     gp.update();
     player.update();
-    platform2.update();
 })
 
 document.addEventListener('mousemove', (e)=>{

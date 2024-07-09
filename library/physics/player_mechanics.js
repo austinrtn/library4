@@ -10,18 +10,22 @@ export class Movement {
     }
 
     static Update(obj){
-        Movement.Move(obj);``
+        Movement.Move(obj);
         if(obj.friction) Movement.ApplyFriction(obj)
     }
 
     static Move(obj){
         if(obj.maxVX && obj.vX >= obj.maxVX) obj.vX = obj.maxVX;
+        if(obj.maxVX && obj.vX <= -obj.maxVX) obj.vX = -obj.maxVX;
+
         if(obj.maxVY && obj.vY >= obj.maxVY) obj.vY = obj.maxVY;
+        if(obj.maxVY && obj.vY <= -obj.maxVY) obj.vY = -obj.maxVY;
+
 
         obj.x += obj.vX;
         obj.y += obj.vY;
 
-       // if(obj.touchingWall) obj.vX = 0;
+        if(obj.touchingWall && !obj.falling) obj.vX = 0;
 
     }
 
@@ -52,21 +56,32 @@ export class Movement {
 
         obj.vX = 0;
         obj.vY = 0;
+        obj.beingMoved = false;
 
-        for(let key in this.data){
-            obj[key] = this.data[key]
+        for(let key in Movement.getDefaults()){
+            let value;
+            if(!this.data[key]) value = Movement.getDefaults()[key];
+            else value = this.data[key];
+            obj[key] = value
         };
-
+      
         obj.loadDetections(SideDetection);
 
         obj.updateFunctions.push(Movement.Update)
+
+        let bar =()=>{
+            console.log(obj);
+        }
+
+        obj.bar = bar;
+
     }
 }
 
 export class Jumping {
     static getDefaults(){
         return {
-            jumpHeight: 5,
+            jumpHeight: 2,
             doWallJump: true,
             doDoubleJump: false,
         }
@@ -105,8 +120,11 @@ export class Jumping {
     }
 
     inject(obj){
-        for(let key in this.data){
-            obj[key] = this.data[key]
+        for(let key in Jumping.getDefaults()){
+            let value;
+            if(!this.data[key]) value = Jumping.getDefaults()[key];
+            else value = this.data[key];
+            obj[key] = value
         };
 
         obj.updateFunctions.push(Jumping.Update)

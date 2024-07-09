@@ -5,11 +5,16 @@ export default class Player extends Rectangle{
     constructor(x,y){
         super(x,y, 15,15, 'green', 'player');
 
-        new Movement(this,null);
-        new Jumping(this,null);
+        new Movement(this,{
+            acc: .075
+        });
+        new Jumping(this);
 
         this.applyGravity = true;
-        this.jumpHeight = 2;
+    }
+
+    update(){
+        this.updateLoop();
     }
 
     onCollision(item){
@@ -17,11 +22,12 @@ export default class Player extends Rectangle{
     }
 
     controller(keys){
-        if(keys[65] && this.vX > -this.maxVX){
+        if(keys[65] ){
             this.vX += -this.acc;
+
             this.beingMoved = true;
         }
-        if(keys[68] && this.vX < this.maxVX){ 
+        if(keys[68]){ 
             this.vX += this.acc;
             this.beingMoved = true;
         }
