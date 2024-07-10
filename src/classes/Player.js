@@ -1,14 +1,11 @@
 import { Rectangle } from "../../library/classes/shapes.js";
-import { Jumping, Movement } from "../../library/physics/player_mechanics.js";
+import {Mechanics} from "../../library/mechanics/Mechanics.js";
 
 export default class Player extends Rectangle{
     constructor(x,y){
         super(x,y, 15,15, 'green', 'player');
 
-        new Movement(this,{
-            acc: .075
-        });
-        new Jumping(this);
+        Mechanics.Jumping.Inject(this,null);
 
         this.applyGravity = true;
     }
@@ -18,7 +15,8 @@ export default class Player extends Rectangle{
     }
 
     onCollision(item){
-        this.pushOutOfBoundary(item, item.solidSides, null)
+        if(item.solid) this.pushOutOfBoundary(item, item.solidSides, null);
+        if(item.type == 'button' && !item.pressed) item.press();
     }
 
     controller(keys){
@@ -36,6 +34,6 @@ export default class Player extends Rectangle{
             this.beingMoved = false;
         }
 
-        if(keys[32]) Jumping.Jump(this);
+        if(keys[32]) this.jump(this);
     }
 }

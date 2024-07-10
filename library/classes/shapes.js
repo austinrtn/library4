@@ -18,9 +18,6 @@ class Shape extends Item{
         this.controllable = true;
         this.dragable = true;
         this.isBeingDragged = false;
-        
-        this.vX = 0;
-        this.vY = 0;
 
         this.boundingBox = null;
         this.collisions = [];

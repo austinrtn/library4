@@ -16,7 +16,7 @@ export const SideDetection = new DetectionObj({
         left: false
     }
 }, (detections, item, mainObj)=> {
-    if(item.type == 'platform' || item.isPlatform){
+    if(item.solid){
         let side = mainObj.getSideOfCollision(item).side;
 
         if(side == 'top') {

@@ -5,7 +5,7 @@ export class Movement {
         return {
             acc: 0.1,
             friction: 0.1,
-            maxVX: 4,
+            maxVX: 2,
         }
     }
 
