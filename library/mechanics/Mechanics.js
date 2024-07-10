@@ -34,7 +34,7 @@ export function inject(obj, data, mechanism){
 
 /******TEMPLATE*******
  * 
-import { inject } from "./mechanics.js";
+import { inject } from "./Mechanics.js";
 
 export class ClassName {
     static ClassName = '';
@@ -44,7 +44,7 @@ export class ClassName {
     };
     
     static Injections = {
-      updateClassName: ClassName.update,
+      updateClassName: ClassName.Update,
     };
 
     static Detections = [];

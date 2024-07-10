@@ -1,5 +1,7 @@
 import { inject } from "./Mechanics.js";
 import { SideDetection } from "../classes/DetectionObj.js";
+import { getDistance, containsPointInSquare } from "../utils/utils.js";
+
 
 export class Movement {
     static Name = 'Movement';
@@ -8,6 +10,7 @@ export class Movement {
         acc: 0.1,
         friction: 0.1,
         maxVX: 2,
+        maxVY: 2,
     }
     
     static Injections = {
@@ -18,6 +21,8 @@ export class Movement {
         updateMovement: Movement.Update,
         move: Movement.Move,
         applyFriction: Movement.ApplyFriction,
+        moveTo: Movement.MoveTo,
+
     }
 
     static Detections = [SideDetection]
@@ -29,6 +34,7 @@ export class Movement {
     static Update(obj){
         obj.move(obj);
         if(obj.friction) obj.applyFriction(obj)
+        if(obj.target) obj.moveTo(obj);
     }
 
     static Move(obj){
@@ -43,6 +49,7 @@ export class Movement {
         obj.y += obj.vY;
 
         if(obj.touchingWall && !obj.falling) obj.vX = 0;
+        if((obj.touchingFloor || obj.touchCeiling) && !obj.falling) obj.vY = 0;
     }
 
     static ApplyFriction(obj){
@@ -54,6 +61,24 @@ export class Movement {
         if(obj.vX < 0.1 && obj.vX > -0.1){
             obj.vX = 0;
             return;
+        }
+    }
+
+    static MoveTo(obj, target){
+        if(target && !obj.target) obj.target = target;
+        else if(!target && obj.target) target = obj.target;
+        let dist = getDistance(obj.getCenter(), target);
+        
+        let xPer = -dist.x / dist.total; 
+        let yPer = -dist.y / dist.total;
+        
+        if(obj.sides.top || obj.sides.left || obj.sides.right || obj.sides.bottom) return;
+        
+        obj.vX += obj.acc * xPer;
+        obj.vY += obj.acc * yPer;
+
+        if(containsPointInSquare(obj, target)){
+            obj.target = null;
         }
     }
 }

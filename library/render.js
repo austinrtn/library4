@@ -35,11 +35,13 @@ function getArrayFromLayer(targetLayer){
 
 export function addToLayer(layer, item){
   item.renderLayer = layer;
+  item.moveToLayer = moveToLayer;
   getArrayFromLayer(layer).items.push(item);
 }
 
 export function removeFromLayer(item){
   getArrayFromLayer(item.renderLayer).delete(item);
+  item.moveToLayer = null;
   item.renderLayer = null;
 }
 

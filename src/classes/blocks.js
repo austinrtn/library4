@@ -1,24 +1,29 @@
 import { Rectangle } from "../../library/classes/shapes.js";
-import { moveToLayer } from "../../library/render.js";
+
 export class Platform extends Rectangle{
     constructor(x,y, width, height, color, push){
         super(x,y,width,height,color,'platform');
         this.push = push;
         this.solid = true;
-        
     }
 
     onCollision(item){
-        if(item.solid)    this.pushOutOfBoundary(item, item.solidSides, null)
+        if(this.push && item.solid) this.pushOutOfBoundary(item, item.solidSides, null)
     }
 
     open(){
-        moveToLayer('background', this)
+        this.moveToLayer('background', this)
         this.solid = false;
         this.color = 'white';
         this.pressed = true;
     }
 
+}
+
+export class MovingPlatform extends Rectangle{
+    constructor(x, y, width, height, color){
+
+    }
 }
 
 export class Button extends Rectangle{
