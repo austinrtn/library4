@@ -17,7 +17,8 @@ export class LoopMovement {
     static Dependencies = ['Movement'];
 
     static Inject(obj, data){
-        inject(obj, data, LoopMovement)
+        if(Array.isArray(obj)) for(let o of obj) inject(o, data, LoopMovement);
+        else inject(obj, data, LoopMovement);
     }
 
     static Update(obj){

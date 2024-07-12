@@ -19,7 +19,8 @@ export class Jumping {
     static Dependencies = ['Movement', 'Gravity']
 
     static Inject(obj, data){
-        inject(obj, data, Jumping)
+        if(Array.isArray(obj)) for(let o of obj) inject(o, data, Jumping);
+        else inject(obj, data, Jumping);
     }
 
     static Update(obj){

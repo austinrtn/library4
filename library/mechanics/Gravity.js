@@ -7,7 +7,7 @@ export class Gravity {
         falling: true, 
         applyGravity: true,
         rateOfGravity: 0.05,
-        maxGravity: 5,
+        maxGravity: 7,
     };
     
     static Injections = {
@@ -18,7 +18,10 @@ export class Gravity {
     static Dependencies = ['Movement'];
 
     static Inject(obj, data){
-        inject(obj, data, Gravity)
+        if(Array.isArray(obj)) for(let o of obj) inject(o, data, Gravity);
+        else inject(obj, data, Gravity);
+
+        obj.maxVels.down = obj.maxGravity;
     }
 
     static Update(obj){

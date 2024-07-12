@@ -7,43 +7,49 @@ export class Movement {
     static Name = 'Movement';
     
     static DefaultData = {
+        vX: 0,
+        vY: 0,
+
         acc: 0.1,
         friction: 0.1,
-        maxVX: 2,
-        maxVY: 2,
+        
+        maxVels: {
+            up: 2,
+            right: 2,
+            down: 2,
+            left: 2,
+        },
+                  
+        beingMoved: false,
+        directionX: null,
+        directionY: null,
     }
     
     static Injections = {
-        vX: 0,
-        vY: 0,
-        beingMoved: false,
-
         updateMovement: Movement.Update,
         move: Movement.Move,
-        applyFriction: Movement.ApplyFriction,
         moveTo: Movement.MoveTo,
-
+        applyFriction: Movement.ApplyFriction,
     }
 
     static Detections = [SideDetection]
     
     static Inject(obj, data){
-        inject(obj, data, Movement)
+        if(Array.isArray(obj)) for(let o of obj) inject(o, data, Movement);
+        else inject(obj, data, Movement);
     }
 
     static Update(obj){
         obj.move(obj);
-        if(obj.friction) obj.applyFriction(obj)
         if(obj.target) obj.moveTo(obj);
+        if(obj.friction) obj.applyFriction(obj)
     }
 
     static Move(obj){
-        if(obj.maxVX && obj.vX >= obj.maxVX) obj.vX = obj.maxVX;
-        if(obj.maxVX && obj.vX <= -obj.maxVX) obj.vX = -obj.maxVX;
-
-        if(obj.maxVY && obj.vY >= obj.maxVY) obj.vY = obj.maxVY;
-        if(obj.maxVY && obj.vY <= -obj.maxVY) obj.vY = -obj.maxVY;
-
+        if(obj.maxVels.right && obj.vX >= obj.maxVels.right) obj.vX = obj.maxVels.right;
+        else if(obj.maxVels.left && obj.vX <= -obj.maxVels.left) obj.vX = -obj.maxVels.left;
+        else if(obj.maxVels.down && obj.vY >= obj.maxVels.down) obj.vY = obj.maxVels.down;
+        else if(obj.maxVels.up && obj.vY <= -obj.maxVels.up) obj.vY = -obj.maxVels.up;
 
         obj.x += obj.vX;
         obj.y += obj.vY;
@@ -57,7 +63,7 @@ export class Movement {
         
         if(obj.vX < 0) obj.vX += obj.friction;
         else obj.vX -= obj.friction;
-
+        
         if(obj.vX < 0.1 && obj.vX > -0.1){
             obj.vX = 0;
             return;
@@ -67,18 +73,20 @@ export class Movement {
     static MoveTo(obj, target){
         if(target && !obj.target) obj.target = target;
         else if(!target && obj.target) target = obj.target;
+
+        if(obj.sides.top || obj.sides.left || obj.sides.right || obj.sides.bottom) return;
+
         let dist = getDistance(obj.getCenter(), target);
-        
         let xPer = -dist.x / dist.total; 
         let yPer = -dist.y / dist.total;
         
-        if(obj.sides.top || obj.sides.left || obj.sides.right || obj.sides.bottom) return;
-        
         obj.vX += obj.acc * xPer;
         obj.vY += obj.acc * yPer;
-
-        if(containsPointInSquare(obj, target)){
+        
+        if(dist.total < 1){
             obj.target = null;
+            this.vX = 0;
+            this.vY = 0;
         }
     }
 }

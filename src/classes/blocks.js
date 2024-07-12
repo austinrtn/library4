@@ -1,10 +1,13 @@
 import { Rectangle } from "../../library/classes/shapes.js";
 
 export class Platform extends Rectangle{
+    static Blocks = [];
+
     constructor(x,y, width, height, color, push){
         super(x,y,width,height,color,'platform');
         this.push = push;
         this.solid = true;
+        Platform.Blocks.push(this);
     }
 
     onCollision(item){

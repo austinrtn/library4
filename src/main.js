@@ -27,9 +27,11 @@ App.start(()=>{
     platform4 = new Platform( 375, 550, 25, 50, 'red', true)
     ceiling = new Platform(200, 650, 25, 10, 'blue')
 
-    Mechanics.Movement.Inject(platform4)
+    Mechanics.Movement.Inject([platform4],{
+        acc:.1
+    })
     platform4.moveTo(platform4, {x: 200, y: 200})
-
+    console.log(platform4.maxVels);
     let button = new Button(210, 630, platform3)
 
     sp = new SpawnPoint(25,600,player);
@@ -39,7 +41,7 @@ App.start(()=>{
 
 App.update(()=>{
     player.update();
-    platform4.update();
+    for(let block of Platform.Blocks) block.update();
 })
 
 document.addEventListener('mousemove', (e)=>{

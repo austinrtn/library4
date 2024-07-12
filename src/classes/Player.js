@@ -2,6 +2,7 @@ import { Rectangle } from "../../library/classes/shapes.js";
 import {Mechanics} from "../../library/mechanics/Mechanics.js";
 
 export default class Player extends Rectangle{
+    
     constructor(x,y){
         super(x,y, 15,15, 'green', 'player');
 
@@ -22,7 +23,6 @@ export default class Player extends Rectangle{
     controller(keys){
         if(keys[65] ){
             this.vX += -this.acc;
-
             this.beingMoved = true;
         }
         if(keys[68]){ 

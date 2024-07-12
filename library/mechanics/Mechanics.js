@@ -18,13 +18,19 @@ export function inject(obj, data, mechanism){
 
     if(!data) data = mechanism.DefaultData;
         
-        for(let key in mechanism.Injections) obj[key] = mechanism.Injections[key];
+        for(let key in mechanism.Injections){
+            let value = mechanism.Injections[key];;
+            if(typeof value === 'object' && value !== null) value = structuredClone(value);
+            obj[key] = value;
+        }
         obj.updateFunctions.push(obj['update' + mechanism.name]);
         
         for(let key in mechanism.DefaultData){
             let value;
             if(!data[key]) value = mechanism.DefaultData[key];
             else value = data[key];
+
+            if(typeof value === 'object' && value !== null) value = structuredClone(value);
             obj[key] = value
         };
         
@@ -51,7 +57,8 @@ export class ClassName {
     static Dependencies = [];
 
     static Inject(obj, data){
-        inject(obj, data, ClassName)
+        if(Array.isArray(obj)) for(let o of obj) inject(o, data, ClassName);
+        else inject(obj, data, ClassName);
     }
 
     static Update(obj){
