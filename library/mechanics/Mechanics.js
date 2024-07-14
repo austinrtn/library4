@@ -1,11 +1,13 @@
 import { Movement } from "./Movement.js";
 import { Gravity } from "./Gravity.js";
 import { Jumping } from "./Jumping.js";
+import { MovementPath } from "./MovementPath.js";
 
 export const Mechanics = {
     Movement: Movement,
     Gravity: Gravity, 
     Jumping: Jumping,
+    MovementPath, MovementPath
 }
 
 export function inject(obj, data, mechanism){

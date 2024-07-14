@@ -1,5 +1,6 @@
 import * as App from '../library/app.js';
 import * as Util from '../library/utils/utils.js';
+import { point } from '../library/utils/utils.js';
 import {Mechanics} from "../library/mechanics/Mechanics.js";
 
 import SpawnPoint from './classes/Spawnpoint.js';
@@ -27,9 +28,11 @@ App.start(()=>{
     platform4 = new Platform( 375, 550, 25, 50, 'red', true)
     ceiling = new Platform(200, 650, 25, 10, 'blue')
 
-    Mechanics.Movement.Inject([platform4],{
-        acc:1
+    Mechanics.MovementPath.Inject([platform4],{
+        path: [point(200,200), 
+            {x: 400, y: 200, timeout: 2000}, {x: platform4.x, y: platform4.y, timeout: 50}]
     })
+    platform4.acc = 2;
     platform4.moveTo(platform4, {x: 200, y: 200})
     console.log(platform4.maxVels);
     let button = new Button(210, 630, platform3)
