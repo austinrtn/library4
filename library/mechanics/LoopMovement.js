@@ -5,15 +5,14 @@ export class LoopMovement {
 
     static DefaultData = {
         looping: true,
-        coords: [],
-        coordIndex: 0,
+        path: [],
+        pathIndex: 0,
     };
     
     static Injections = {
       updateLoopMovement: LoopMovement.Update,
     };
 
-    static Detections = [];
     static Dependencies = ['Movement'];
 
     static Inject(obj, data){
@@ -26,14 +25,15 @@ export class LoopMovement {
     }
 
     static loopMovement(obj){
-        let target = obj.coords[obj.coordIndex];
-        if(!target.x) target.x = obj.x;
-        if(!target.y) target.y = obj.y;
+        if(!obj.path || obj.path.length == 0) return;
 
-        if(containsPointInSquare(obj, target)){
-            if(obj.coordIndex <= obj.coords.lenght) obj.coordIndex++;
-            else obj.coordIndex = 0;
-            return;
+        if(!obj.target){
+
+        } else {
+            
         }
+        let target = obj.path[obj.pathIndex];
+        
+        obj.moveTo(obj,target);
     }
 }

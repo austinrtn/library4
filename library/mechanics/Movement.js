@@ -80,8 +80,8 @@ export class Movement {
         let xPer = -dist.x / dist.total; 
         let yPer = -dist.y / dist.total;
         
-        obj.vX += obj.acc * xPer;
-        obj.vY += obj.acc * yPer;
+        obj.vX = obj.acc * xPer;
+        obj.vY = obj.acc * yPer;
         
         if(dist.total < 1){
             obj.target = null;

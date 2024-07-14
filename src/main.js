@@ -28,7 +28,7 @@ App.start(()=>{
     ceiling = new Platform(200, 650, 25, 10, 'blue')
 
     Mechanics.Movement.Inject([platform4],{
-        acc:.1
+        acc:1
     })
     platform4.moveTo(platform4, {x: 200, y: 200})
     console.log(platform4.maxVels);
