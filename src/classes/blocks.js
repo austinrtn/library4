@@ -15,7 +15,7 @@ export class Platform extends Rectangle{
     }
 
     open(){
-        this.moveToLayer('background', this)
+        this.moveToLayer(this, 'background')
         this.solid = false;
         this.color = 'white';
         this.pressed = true;

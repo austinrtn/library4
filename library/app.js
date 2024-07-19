@@ -2,6 +2,7 @@ import * as Controller from "./controller.js";
 import * as Collision from "./physics/collision_detection/classicCollisionDetection.js"
 import * as Util from "./utils/utils.js";
 import * as Render from "./render.js";
+
 //import QuadTreeProcessor from "./quadtree/QuadTreeProcessor.js";
 const middleground = document.getElementById("middleground");
 
@@ -10,6 +11,7 @@ let loggingFps = false;
 let timePassed = 0;
 let totalElapsed = 0;
 let lastTimestamp = 0;
+
 let fps = 0;
 let updateFunc = null;
 
@@ -38,6 +40,10 @@ export function getTimeElasped(){
     return timePassed;
 }
 
+export function getFps(){
+    return fps;
+}
+
 export function getAllItems(){
     return allItems;
 }
@@ -48,10 +54,12 @@ export function update(func){
 
 function gameLoop(timeStamp){
     if(isLooping){  
+        if(loggingFps) console.log(fps);
+
         totalElapsed += timeStamp
         timePassed = (timeStamp - lastTimestamp);
-        fps = Math.round(1/timePassed);
-        if(loggingFps) console.log(fps);
+        lastTimestamp = timeStamp;
+        fps = Math.round(1000 / Number(timePassed))
 
         if(updateFunc) updateFunc();
         if(autoDelete) for(let i = 0; i < allItems.length; i++) if(allItems[i].markForDeletion) removeItems(allItems[i])
@@ -61,9 +69,6 @@ function gameLoop(timeStamp){
         else if(collisionType == COLLISION_TYPES.CLASSIC) Collision.update();
         
         Render.update();
-
-        lastTimestamp = timeStamp;
-        document.getElementById("framerate").innerHTML = "Framerate: " + fps;
     }
     window.requestAnimationFrame(gameLoop);
 }
@@ -73,12 +78,9 @@ export function createItems(...items){
     if(items[0].length > 1) items = items[0];
     
     for(var item of items){
-        let renderLayer;
-        if(item.renderLayer) renderLayer = item.renderLayer;
-        else renderLayer = "middleground";
 
         allItems.push(item)
-        Render.addToLayer(renderLayer, item);
+        Render.addToLayer(item);
         if(collisionType == COLLISION_TYPES.QUADTREE) qtp.addItem(item);
         else if(collisionType == COLLISION_TYPES.CLASSIC && item.collidable) Collision.addItem(item);
 
@@ -151,5 +153,3 @@ document.body.addEventListener("keyup", function (e) {
     if(e.keyCode == 70) logFps();
     
 });
-
-start();

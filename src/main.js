@@ -6,6 +6,8 @@ import SpawnPoint from './classes/Spawnpoint.js';
 import Player from './classes/Player.js';
 import { Button, Platform } from './classes/blocks.js';
 
+
+
 const middleground = document.getElementById('middleground');
 
 let cursorPos;
@@ -28,8 +30,10 @@ App.start(()=>{
     ceiling = new Platform(200, 650, 25, 10, 'blue')
 
     Mechanics.Movement.Inject([platform4],{
-        acc:1
+        acc:5,
+        maxVel: 10
     })
+    
     platform4.moveTo(platform4, {x: 200, y: 200})
     console.log(platform4.maxVels);
     let button = new Button(210, 630, platform3)

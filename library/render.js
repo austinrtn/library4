@@ -33,8 +33,11 @@ function getArrayFromLayer(targetLayer){
   return null;
 }
 
-export function addToLayer(layer, item){
-  item.renderLayer = layer;
+export function addToLayer(item, layer){
+  if(!layer && item.renderLayer) layer = item.renderLayer;
+  else if(!layer && !item.renderLayer) layer = 'middleground';
+  if(!item.renderLayer) item.renderLayer = layer;
+  
   item.moveToLayer = moveToLayer;
   getArrayFromLayer(layer).items.push(item);
 }
@@ -45,20 +48,23 @@ export function removeFromLayer(item){
   item.renderLayer = null;
 }
 
-export function moveToLayer(layer, item){
+export function moveToLayer(item, layer){
+  item.renderLayer = layer;
   removeFromLayer(item);
-  addToLayer(layer,item);
+  addToLayer(item, layer);
 }
 
 export function update(){
   for (const layer of layers) {
-    renderItems(layer.ctx, layer.items);
+    renderItems(layer.ctx, layer);
   }
 }
 
-function renderItems(ctx, items){
+function renderItems(ctx, layer){
     ctx.clearRect(0,0,width,height)
-    for(let item of items){
+    for(let item of layer.items){
+      if(item.renderLayer != layer.layerName) item.renderLayer = item.layerName;
+
       if(!item.isVisible) continue;
       ctx.beginPath();
 

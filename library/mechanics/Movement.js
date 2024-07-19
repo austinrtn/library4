@@ -13,6 +13,8 @@ export class Movement {
         acc: 0.1,
         friction: 0.1,
         
+        maxVel: null,
+
         maxVels: {
             up: 2,
             right: 2,
@@ -37,6 +39,12 @@ export class Movement {
     static Inject(obj, data){
         if(Array.isArray(obj)) for(let o of obj) inject(o, data, Movement);
         else inject(obj, data, Movement);
+        
+        if(data && data.maxVel) {
+            for(let key in Movement.DefaultData.maxVels) {
+                obj.maxVels[key] = data.maxVel;
+            }
+        }
     }
 
     static Update(obj){
