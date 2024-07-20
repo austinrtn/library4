@@ -151,5 +151,4 @@ document.body.addEventListener('mousedown', (e)=>{
 document.body.addEventListener("keyup", function (e) {  
     if(e.keyCode == 80) loop();
     if(e.keyCode == 70) logFps();
-    
 });

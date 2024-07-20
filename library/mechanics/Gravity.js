@@ -25,7 +25,12 @@ export class Gravity {
     }
 
     static Update(obj){
+        if(!obj.applyGravity) {
+            obj.falling = false;
+            return;
+        }
         obj.checkIfFalling(obj);
+        if(obj.maxVels.down != obj.maxGravity) obj.maxVels.down = obj.maxGravity;
         if(obj.falling && obj.vY < obj.maxGravity) obj.vY += obj.rateOfGravity;
     }
 

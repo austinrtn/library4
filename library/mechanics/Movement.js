@@ -32,6 +32,7 @@ export class Movement {
         move: Movement.Move,
         moveTo: Movement.MoveTo,
         applyFriction: Movement.ApplyFriction,
+        setMaxVel: Movement.setMaxVel,
     }
 
     static Detections = [SideDetection]
@@ -39,12 +40,6 @@ export class Movement {
     static Inject(obj, data){
         if(Array.isArray(obj)) for(let o of obj) inject(o, data, Movement);
         else inject(obj, data, Movement);
-        
-        if(data && data.maxVel) {
-            for(let key in Movement.DefaultData.maxVels) {
-                obj.maxVels[key] = data.maxVel;
-            }
-        }
     }
 
     static Update(obj){
@@ -96,5 +91,9 @@ export class Movement {
             this.vX = 0;
             this.vY = 0;
         }
+    }
+
+    static setMaxVel(obj, maxVel){
+        for(let key in obj.maxVels) obj.maxVels[key] = maxVel
     }
 }

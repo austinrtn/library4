@@ -6,19 +6,19 @@ let width = middlegroundCanvas.width;
 let height = middlegroundCanvas.height;
 
 const background = {
-  layerName: "background",
+  name: "background",
   ctx: backgroundCanvas.getContext("2d"),
   items: [],
   delete: function(item){this.items = this.items.filter(removeObj => removeObj !== item)}
 }
 const middleground = {
-  layerName: "middleground",
+  name: "middleground",
   ctx: middlegroundCanvas.getContext("2d"),
   items: [],
   delete: function(item){this.items = this.items.filter(removeObj => removeObj !== item)}
 }
 const foreground = {
-  layerName: "foreground",
+  name: "foreground",
   ctx: foregroundCanvas.getContext("2d"),
   items: [],
   delete: function(item){this.items = this.items.filter(removeObj => removeObj !== item)}
@@ -28,7 +28,7 @@ const layers = [background, middleground, foreground];
 
 function getArrayFromLayer(targetLayer){
   for(var layer of layers){
-    if(layer.layerName == targetLayer) return layer;
+    if(layer.name == targetLayer) return layer;
   }
   return null;
 }
@@ -63,8 +63,6 @@ export function update(){
 function renderItems(ctx, layer){
     ctx.clearRect(0,0,width,height)
     for(let item of layer.items){
-      if(item.renderLayer != layer.layerName) item.renderLayer = item.layerName;
-
       if(!item.isVisible) continue;
       ctx.beginPath();
 

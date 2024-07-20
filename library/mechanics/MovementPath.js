@@ -1,7 +1,7 @@
 import { inject } from "./Mechanics.js";
 
 export class MovementPath {
-    static MovementPath = '';
+    static Name = 'MovementPath';
 
     static DefaultData = {
         looping: true,
