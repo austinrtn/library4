@@ -15,8 +15,13 @@ export default class GameEngine {
     }
 
     static Message(){
-        let sentMsg = localStorage.setItem('intro-message');
+        let sentMsg = localStorage.getItem('message');
+        let msg = "Austin's Platforming Library v0.05";
 
+        if(!sentMsg){
+            localStorage.setItem('message', true);
+            console.log(msg);
+        }
     }
 
     constructor(){
@@ -39,6 +44,7 @@ export default class GameEngine {
     start(func){
         GameEngine.Message();
         GameEngine.SetGameEngine(this);
+        
         if(func) func();
         window.requestAnimationFrame(this.loop);
     }
