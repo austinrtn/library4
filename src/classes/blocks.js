@@ -25,7 +25,7 @@ export class Platform extends Rectangle{
 
 export class MovingPlatform extends Rectangle{
     constructor(x, y, width, height, color){
-
+        
     }
 }
 

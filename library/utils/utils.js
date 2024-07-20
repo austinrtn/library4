@@ -75,3 +75,10 @@ export function circleIntersects(obj1, obj2){
     let radii = obj1.r + obj2.r;
     return Math.pow(radii,2) >= dist;
 }
+
+export function point(x,y){
+    return {
+        x: x,
+        y: y
+    }
+}
