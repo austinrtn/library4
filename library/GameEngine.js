@@ -18,7 +18,7 @@ export default class GameEngine {
         let sentMsg = localStorage.getItem('message');
         let msg = "Austin's Platforming Library v0.05";
 
-        if(!sentMsg){
+        if(!sentMsg){ 
             localStorage.setItem('message', true);
             console.log(msg);
         }
@@ -28,10 +28,13 @@ export default class GameEngine {
         this.looping = true;
         this.logFps = false;
 
-        this.timePassed = 0;
         this.totalElapsed = 0;
         this.lastTimeStamp = 0;
         this.fps = 0;
+
+        this.fpsTarget = 1000 / 70;
+        this.deltaMulti = 0;
+        this.deltaTime = 0;
 
         this.items = [];
 
@@ -64,9 +67,10 @@ export default class GameEngine {
         if(engine.logFps) console.log(engine.fps);
 
         engine.totalElapsed += timeStamp
-        engine.timePassed = (timeStamp - engine.lastTimestamp);
+        engine.deltaTime = (timeStamp - engine.lastTimestamp);
+        engine.deltaMulti = engine.deltaTime / engine.fpsTarget
         engine.lastTimestamp = timeStamp;
-        engine.fps = Math.round(1000 / Number(engine.timePassed))
+        engine.fps = Math.round(1000 / Number(engine.deltaTime))
 
         if(engine.updateFunc) engine.updateFunc();
         if(engine.autoDelete) for(let i = 0; i < engine.items.length; i++) if(engine.items[i].markForDeletion) engine.removeItems(allItems[i])

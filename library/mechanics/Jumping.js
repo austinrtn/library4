@@ -6,7 +6,7 @@ export class Jumping {
     static DefaultData = {
         jumping: false,
         jumpHeight: 2,
-        doWallJump: false,
+        doWallJump: true,
         doDoubleJump: false,
     }
     

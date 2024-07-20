@@ -1,3 +1,8 @@
+--  v0.01 | 07/20/2024 @ 1:53pm --
+    >>Added Delta Time Multiplier to adjsut the rendering to the refresh rate of the monitor 
+    ??Hitting a wall only stops the vX movement of the player when it is NOT falling.  
+
+
 --  v0.01 | 07/20/2024 @ 11:50am --
     >>Created the 'GameEngine.js' file which took all of the game engine attributes and funcitonality from the form 'app.js' file and organized it into a class.  
     >>Deleted the 'app.js' file.  

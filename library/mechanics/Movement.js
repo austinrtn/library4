@@ -1,4 +1,5 @@
 import { inject } from "./Mechanics.js";
+import GameEngine from "../GameEngine.js";
 import { SideDetection } from "../classes/DetectionObj.js";
 import { getDistance, containsPointInSquare } from "../utils/utils.js";
 
@@ -49,13 +50,15 @@ export class Movement {
     }
 
     static Move(obj){
+        if(!GameEngine.MainEngine.deltaMulti) return;
+        
         if(obj.maxVels.right && obj.vX >= obj.maxVels.right) obj.vX = obj.maxVels.right;
         else if(obj.maxVels.left && obj.vX <= -obj.maxVels.left) obj.vX = -obj.maxVels.left;
         else if(obj.maxVels.down && obj.vY >= obj.maxVels.down) obj.vY = obj.maxVels.down;
         else if(obj.maxVels.up && obj.vY <= -obj.maxVels.up) obj.vY = -obj.maxVels.up;
-
-        obj.x += obj.vX;
-        obj.y += obj.vY;
+        
+        obj.x += obj.vX * GameEngine.MainEngine.deltaMulti;
+        obj.y += obj.vY * GameEngine.MainEngine.deltaMulti;
 
         if(obj.touchingWall && !obj.falling) obj.vX = 0;
         if((obj.touchingFloor || obj.touchCeiling) && !obj.falling) obj.vY = 0;

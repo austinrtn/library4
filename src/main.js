@@ -41,6 +41,7 @@ ge.start(()=>{
     ge.createItems(player, floor, platform2, platform3, platform4, ceiling, sp, button);
 
     player.setMaxVel(player, 5)
+    ge.logFps = true;
 });
 
 ge.update(()=>{
