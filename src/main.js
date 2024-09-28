@@ -1,52 +1,15 @@
 import GameEngine from '../library/GameEngine.js';
 import * as Util from '../library/utils/utils.js';
-import { point } from '../library/utils/utils.js';
-import {Mechanics} from "../library/mechanics/Mechanics.js";
 
-import SpawnPoint from './classes/Spawnpoint.js';
-import Player from './classes/Player.js';
-import { Button, Platform } from './classes/blocks.js';
-
-const middleground = document.getElementById('middleground');
 const ge = new GameEngine();
-
-
 let cursorPos;
-let player;
-let floor;
-let platform2;
-let platform3;
-let platform4;
-let ceiling;
-let sp;
 
 ge.start(()=>{
-    player = new Player(null,null);
-    floor = new Platform(0, 700, 400, 25, 'black');
-    floor.isFloor = true;
-    platform2 = new Platform( 375, 650, 25, 50, 'red')
-    platform3 = new Platform( 300, 600, 25, 100, 'red', )
-    platform4 = new Platform( 375, 550, 25, 50, 'red', true)
-    ceiling = new Platform(200, 650, 25, 10, 'blue')
-    sp = new SpawnPoint(25,600,player);
-    sp.load();
-
-    Mechanics.Movement.Inject([platform4],{
-        acc:3,
-    })
-
-    platform4.moveTo(platform4, {x: 200, y: 200})
-    let button = new Button(210, 630, platform3)
-
-    ge.createItems(player, floor, platform2, platform3, platform4, ceiling, sp, button);
-
-    player.setMaxVel(player, 5)
-    ge.logFps = true;
+    alert('hello wrld')
 });
 
 ge.update(()=>{
-    player.update();
-    for(let block of Platform.Blocks) block.update();
+    console.log(Date.now());
 })
 
 document.addEventListener('mousemove', (e)=>{
