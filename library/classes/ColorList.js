@@ -1,4 +1,4 @@
-let colors = {
+const COLORS = {
     red: "red",
     green: "green",
     blue: "blue",
@@ -52,8 +52,17 @@ let colors = {
     springgreen: "springgreen",
     lightcoral: "lightcoral",
     bisque: "bisque",
-    lightgoldenrodyellow: "lightgoldenrodyellow"
+    lightgoldenrodyellow: "lightgoldenrodyellow",
+
+    random: ()=>{
+      
+      let keys = Object.keys(COLORS);
+      console.log(keys);
+      
+      let key = keys[Math.floor(Math.random() * keys.length-1)];
+      return COLORS[key];
+    }
   }
 
 
-export {colors};
+export default COLORS
