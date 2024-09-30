@@ -4,12 +4,16 @@ import  COLORS  from '../library/classes/ColorList.js';
 const ge = new GameEngine();
 let cursorPos;
 
+let rects = [];
+let rectSize = 25;
+let grid = {x: 8, y: 8}
+
 ge.start(()=>{
-    alert(COLORS.random())
+    
 });
 
 ge.update(()=>{
-    console.log(Date.now());
+
 })
 
 document.addEventListener('mousemove', (e)=>{
