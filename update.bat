@@ -7,7 +7,7 @@ powershell Expand-Archive main.zip
 
 del "main.zip"
 
-robocopy "C://xampp/htdocs/test/main/library4-main/library" "C://xampp/htdocs/test/library" /E /DCOPY:DAT /COPY:DAT /R:5 /W:10
+robocopy "main/library4-main/library" "library" /E /DCOPY:DAT /COPY:DAT /R:5 /W:10
 
 rmdir /s /q main
 
