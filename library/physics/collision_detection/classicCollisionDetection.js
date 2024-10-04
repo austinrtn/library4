@@ -1,6 +1,14 @@
 import { squareIntersects } from "../../utils/utils.js";
-let collisionType = "rectangle";
+let collisionType = "";
 let collisionObjs = [];
+
+export function setCollisionType(type){
+    collisionType = type
+}
+
+export function getCollisionType(){
+    return collisionType;
+}
 
 export function addItem(item){
     if(item.shape == "line") return;

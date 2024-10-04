@@ -24,7 +24,12 @@ export default class GameEngine {
         }
     }
 
-    constructor(){
+    constructor(collisionType){
+        if(collisionType != 'rectangle' && collisionType != 'circle')
+            alert("Please pass valid arguement for 'collisionType' for new GameEngine object ('rectangle' || 'circle)'")
+        
+        Collision.setCollisionType(collisionType);
+
         this.looping = true;
         this.logFps = false;
 
@@ -84,7 +89,7 @@ export default class GameEngine {
         window.requestAnimationFrame(engine.loop);
     }
 
-    createItems(...items){
+    createItems(collidable, ...items){
         if(!items || !items[0]) return;
         if(items[0].length > 1) items = items[0];
         
@@ -92,7 +97,7 @@ export default class GameEngine {
             this.items.push(item)
             Render.addToLayer(item);
             if(this.collisionType == 'quadtree') qtp.addItem(item);
-            else if(this.collisionType == 'CLASSIC' && item.collidable) Collision.addItem(item);
+            else if(this.collisionType == 'CLASSIC' && collidable) Collision.addItem(item);
 
             if(item.controllable) Controller.addToController(item);
         }
@@ -111,4 +116,6 @@ export default class GameEngine {
             if(item.controllable) Controller.removeFromController(item);
         }
     }
+
+
 }
