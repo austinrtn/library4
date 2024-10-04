@@ -1,8 +1,9 @@
 @echo off
 
+set url=https://github.com/austinrtn/library4/archive/refs/heads/main.zip
 rmdir library /s /q
 
-wget https://github.com/austinrtn/library4/archive/refs/heads/main.zip
+wget %url%
 powershell Expand-Archive main.zip
 
 del "main.zip"
@@ -12,4 +13,3 @@ robocopy "main/library4-main/library" "library" /E /DCOPY:DAT /COPY:DAT /R:5 /W:
 rmdir /s /q main
 
 echo Library Updated!
-
