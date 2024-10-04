@@ -2,13 +2,13 @@
 
 set url=https://github.com/austinrtn/library4/archive/refs/heads/main.zip
 
-ECHO pinging github...
+ECHO Testing Connection...
 ping -n 1 github.com >nul
 if errorlevel 1 (
 echo Failure to connect to: github.com
 pause
 exit
-) else ECHO success 
+) else ECHO Success 
 ECHO . 
 ECHO .
 

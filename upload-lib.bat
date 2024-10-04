@@ -5,8 +5,17 @@ SET defaultTarget=C:\xampp\htdocs\library4
 SET url=https://github.com/austinrtn/library4/archive/refs/heads/main.zip
 
 SET /p ans=Are you sure you want to commit changes to 'library'? [y/n]
-
 IF NOT %ans%==y exit
+
+ECHO Testing Connection...
+ping -n 1 github.com >nul
+if errorlevel 1 (
+echo Failure to connect to: github.com
+pause
+exit
+) else ECHO Success 
+ECHO . 
+ECHO .
 
 SET /p target=Library Source Path: 
 
