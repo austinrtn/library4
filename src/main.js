@@ -17,5 +17,5 @@ ge.update(()=>{
 })
 
 document.addEventListener('mousemove', (e)=>{
-    cursorPos = Util.getCursorPosition(middleground, e)
+    cursorPos = Util.getCursorPosition(middleground, e);
 })
