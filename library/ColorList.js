@@ -53,6 +53,7 @@ const COLORS = {
     lightcoral: "lightcoral",
     bisque: "bisque",
     lightgoldenrodyellow: "lightgoldenrodyellow",
+    lightorange: "lightorange",
 
     random: ()=>{
       
