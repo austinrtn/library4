@@ -38,5 +38,3 @@ rmdir /s /q main
 del "install-lib.bat"
 
 start https://localhost/%dir%/
-
-start https://localhost/%dir%/
