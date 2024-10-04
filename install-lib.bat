@@ -37,4 +37,9 @@ rmdir /s /q main
 
 del "install-lib.bat"
 
+SET /p startApache=Start Apache?[y/n]
+
+IF %startApache%==y start C:/xampp/apache_start.bat
+
 start https://localhost/%dir%/
+
