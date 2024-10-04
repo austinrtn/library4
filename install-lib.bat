@@ -17,5 +17,5 @@ robocopy "main/library4-main/" "%cd%" /E /DCOPY:DAT /COPY:DAT /R:5 /W:10
 
 rmdir /s /q main
 
-del "install-library.bat"
+del "install-lib.bat"
 
