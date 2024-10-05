@@ -77,12 +77,18 @@ export class Movement {
     }
 
     static MoveTo(obj, target){
+        let center;
         if(target && !obj.target) obj.target = target;
         else if(!target && obj.target) target = obj.target;
 
-        if(obj.sides.top || obj.sides.left || obj.sides.right || obj.sides.bottom) return;
+        if(obj.shape === 'rectangle'){
+            center = obj.getCenter();
+            if(obj.sides.top || obj.sides.left || obj.sides.right || obj.sides.bottom) return;
+        } else if(obj.shape === 'circle'){
+            center = {x:obj.x, y:obj.y}
+        }
 
-        let dist = getDistance(obj.getCenter(), target);
+        let dist = getDistance(center, target);
         let xPer = -dist.x / dist.total; 
         let yPer = -dist.y / dist.total;
         
