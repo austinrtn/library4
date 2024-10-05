@@ -59,7 +59,6 @@ const COLORS = {
     random: ()=>{
       
       let keys = Object.keys(COLORS);
-      console.log(keys);
       
       let key = keys[Math.floor(Math.random() * keys.length-1)];
       return COLORS[key];

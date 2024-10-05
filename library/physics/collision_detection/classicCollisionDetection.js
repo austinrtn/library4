@@ -11,7 +11,15 @@ export function getCollisionType(){
 }
 
 export function addItem(item){
+    if(!item) return;
     if(item.shape == "line") return;
+    if( collisionObjs.find(colItem => colItem == item)){
+        throw ('Item Id: ' +item.id+ " had already been added to collisions");
+        console.log(find);
+        
+        debugger
+        return;    
+    }
     collisionObjs.push(item);
 }
 
@@ -19,7 +27,7 @@ export function removeItem(item){
     collisionObjs = collisionObjs.filter(removeObj => removeObj != item);
 }
 
-export function update(){
+export function update(){    
     if(!collisionType) throw "Set propper render type in 'collision_detection.js'";
     for(var i = 0; i < collisionObjs.length; i++){
             for(var j = 0; j < collisionObjs.length; j++){

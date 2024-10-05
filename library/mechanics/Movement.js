@@ -12,7 +12,7 @@ export class Movement {
         vY: 0,
 
         acc: 0.1,
-        friction: 0.1,
+        friction: 0,
         
         maxVel: null,
 

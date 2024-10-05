@@ -57,6 +57,15 @@ class Shape extends Item{
         }
          this.updateCollision();
     }
+
+    loadDetections(...detectionObjs){
+        for(let dObj of detectionObjs){
+            for(const key in dObj.detections){
+                this.detections[key] = dObj.detections[key];
+            }
+            this.detectionFunctions.push(dObj.func);
+        }
+    }
 }
 
 export class Rectangle extends Shape{
@@ -84,14 +93,7 @@ export class Rectangle extends Shape{
         };
     }
 
-    loadDetections(...detectionObjs){
-        for(let dObj of detectionObjs){
-            for(const key in dObj.detections){
-                this.detections[key] = dObj.detections[key];
-            }
-            this.detectionFunctions.push(dObj.func);
-        }
-    }
+
 
     updateCollision(){
         let detections = structuredClone(this.detections)

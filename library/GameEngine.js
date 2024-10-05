@@ -97,7 +97,7 @@ export default class GameEngine {
             this.items.push(item)
             Render.addToLayer(item);
             if(this.collisionType == 'quadtree') qtp.addItem(item);
-            else if(this.collisionType == 'CLASSIC' && collidable) Collision.addItem(item);
+            else if(this.collisionType == 'CLASSIC' && collidable) this.addCollision(item);
 
             if(item.controllable) Controller.addToController(item);
         }
@@ -117,5 +117,12 @@ export default class GameEngine {
         }
     }
 
+    addCollision(item){
+        Collision.addItem(item)
+    }
+
+    removeCollision(item){
+        Collision.removeItem(item)
+    }
 
 }
