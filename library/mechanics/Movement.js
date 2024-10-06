@@ -1,7 +1,7 @@
 import { inject } from "./Mechanics.js";
 import GameEngine from "../GameEngine.js";
 import { SideDetection } from "../classes/DetectionObj.js";
-import { getDistance, containsPointInSquare } from "../utils/utils.js";
+import { getDistance, containsPointInSquare, point } from "../utils/utils.js";
 
 
 export class Movement {
@@ -11,7 +11,10 @@ export class Movement {
         vX: 0,
         vY: 0,
 
-        acc: 0.1,
+        accelerate: true,
+        accelerationSpeed: 0.01,
+        maxAccele: 5,
+        currentAcceleration: 0,
         friction: 0,
         
         maxVel: null,
@@ -32,6 +35,7 @@ export class Movement {
         updateMovement: Movement.Update,
         move: Movement.Move,
         moveTo: Movement.MoveTo,
+        stopMoving: Movement.StopMoving,
         applyFriction: Movement.ApplyFriction,
         setMaxVel: Movement.setMaxVel,
     }
@@ -57,6 +61,7 @@ export class Movement {
         else if(obj.maxVels.down && obj.vY >= obj.maxVels.down) obj.vY = obj.maxVels.down;
         else if(obj.maxVels.up && obj.vY <= -obj.maxVels.up) obj.vY = -obj.maxVels.up;
         
+
         obj.x += obj.vX * GameEngine.MainEngine.deltaMulti;
         obj.y += obj.vY * GameEngine.MainEngine.deltaMulti;
 
@@ -92,14 +97,25 @@ export class Movement {
         let xPer = -dist.x / dist.total; 
         let yPer = -dist.y / dist.total;
         
-        obj.vX = obj.acc * xPer;
-        obj.vY = obj.acc * yPer;
+        obj.vX = obj.currentAcceleration * xPer;
+        obj.vY = obj.currentAcceleration * yPer;
+
+
+        if(obj.currentAcceleration < obj.maxAccele) obj.currentAcceleration += obj.accelerationSpeed
+
+        console.log(obj.currentAcceleration);
+        
         
         if(dist.total < 1){
-            obj.target = null;
-            this.vX = 0;
-            this.vY = 0;
+          obj.stopMoving(obj);
         }
+    }
+
+    static StopMoving(obj){
+        if(obj.target) obj.target = null;
+        obj.vX = 0;
+        obj.vY = 0;
+        obj.currentAcceleration = 0;
     }
 
     static setMaxVel(obj, maxVel){
