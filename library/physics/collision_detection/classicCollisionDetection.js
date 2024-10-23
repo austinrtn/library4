@@ -1,4 +1,4 @@
-import { squareIntersects } from "../../utils/utils.js";
+import { squareIntersects } from "../../utils.js";
 let collisionType = "";
 let collisionObjs = [];
 

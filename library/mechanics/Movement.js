@@ -1,7 +1,7 @@
 import { inject } from "./Mechanics.js";
 import GameEngine from "../GameEngine.js";
 import { SideDetection } from "../classes/DetectionObj.js";
-import { getDistance, containsPointInSquare, point } from "../utils/utils.js";
+import { getDistance, containsPointInSquare, point } from "../utils.js";
 
 
 export class Movement {
@@ -97,13 +97,14 @@ export class Movement {
         let xPer = -dist.x / dist.total; 
         let yPer = -dist.y / dist.total;
         
-        obj.vX = obj.currentAcceleration * xPer;
-        obj.vY = obj.currentAcceleration * yPer;
+        obj.vX = 5 * xPer;
+        obj.vY = 5 * yPer;
 
+        
+        
 
         if(obj.currentAcceleration < obj.maxAccele) obj.currentAcceleration += obj.accelerationSpeed
 
-        console.log(obj.currentAcceleration);
         
         
         if(dist.total < 1){

@@ -82,3 +82,21 @@ export function point(x,y){
         y: y
     }
 }
+
+export function getAngleByPoints(point1, point2){
+    let dy = point2.y - point1.y;
+    let dx = point2.x - point1.x;
+    let theta = Math.atan2(dy, dx);
+    theta *= 180 / Math.PI;
+    
+    return theta;
+}
+
+export function vector(mag, angle){
+    angle = (angle * Math.PI) / 180;
+
+    return {
+        dx: mag * Math.cos(angle),
+        dy: mag * Math.sin(angle)
+    }
+}

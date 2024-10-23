@@ -1,6 +1,6 @@
 import * as Controller from "./controller.js";
 import * as Collision from "./physics/collision_detection/classicCollisionDetection.js"
-import * as Util from "./utils/utils.js";
+import * as Util from "./utils.js";
 import * as Render from "./render.js";
 
 export default class GameEngine {

@@ -1,2 +1,4 @@
-change1
-change2
+10/22/2024
+-Created 'items' folder and 'shapes' folder.
+-Moved all relvant files accordingly and gave each shape their own file.
+-Added vector and other functions to util

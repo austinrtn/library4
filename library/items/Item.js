@@ -4,8 +4,6 @@ export default class Item {
     constructor(type){
         this.type = type
         this.id = createId();
-
-        this.markForDeletion = false;
     }
 
     update(){
