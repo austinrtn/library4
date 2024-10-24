@@ -42,16 +42,15 @@ export function addToLayer(item, layer){
   getArrayFromLayer(layer).items.push(item);
 }
 
-export function removeFromLayer(item){
+export function removeFromLayer(item){  
   getArrayFromLayer(item.renderLayer).delete(item);
   item.moveToLayer = null;
   item.renderLayer = null;
 }
 
 export function moveToLayer(item, layer){  
-  item.renderLayer = layer;
   removeFromLayer(item);
-  addToLayer(item, layer);
+  addToLayer(item, layer);  
 }
 
 export function update(){
