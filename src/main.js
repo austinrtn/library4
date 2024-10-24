@@ -1,12 +1,9 @@
 import GameEngine from '../library/GameEngine.js';
-import * as Util from '../library/utils/utils.js';
+import * as Util from '../library/utils.js';
 
-const ge = new GameEngine();
+const ge = new GameEngine('circle');
 let cursorPos;
 
-let rects = [];
-let rectSize = 25;
-let grid = {x: 8, y: 8}
 
 ge.start(()=>{
     alert("Thank you for using Austin's Library!");   
