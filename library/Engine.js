@@ -1,19 +1,8 @@
 import * as Controller from "./controller.js";
 import * as Collision from "./physics/collision_detection/classicCollisionDetection.js"
-import * as Util from "./utils.js";
 import * as Render from "./render.js";
 
-export default class GameEngine {
-    static MainEngine = null;
-
-    static SetGameEngine(engine){
-        GameEngine.MainEngine = engine;
-    }
-
-    static GetGameEngine(){
-        return GameEngine.MainEngine;
-    }
-
+class Engine {
     static Message(){
         let sentMsg = localStorage.getItem('message');
         let msg = "Austin's Platforming Library v0.05";
@@ -26,7 +15,7 @@ export default class GameEngine {
 
     constructor(collisionType){
         if(collisionType != 'rectangle' && collisionType != 'circle')
-            alert("Please pass valid arguement for 'collisionType' for new GameEngine object ('rectangle' || 'circle)'")
+            alert("Please pass valid arguement for 'collisionType' for new Engine object ('rectangle' || 'circle)'")
         
         Collision.setCollisionType(collisionType);
 
@@ -50,8 +39,7 @@ export default class GameEngine {
     }
 
     start(func){
-        GameEngine.Message();
-        GameEngine.SetGameEngine(this);
+        Engine.Message();
         
         if(func) func();
         window.requestAnimationFrame(this.loop);
@@ -62,7 +50,7 @@ export default class GameEngine {
     }
 
     loop(timeStamp){
-        let engine = GameEngine.MainEngine;
+        let engine = getGameEngine();
 
         if(!engine.looping){  
             window.requestAnimationFrame(engine.loop);
@@ -96,6 +84,8 @@ export default class GameEngine {
         for(var item of items){
             this.items.push(item)
             Render.addToLayer(item);
+            if(item.type == 'text') continue;
+            
             if(this.collisionType == 'quadtree') qtp.addItem(item);
             else if(this.collisionType == 'CLASSIC' && collidable) this.addCollision(item);
 
@@ -124,5 +114,12 @@ export default class GameEngine {
     removeCollision(item){
         Collision.removeItem(item)
     }
-
 }
+
+const GameEngine = new Engine('circle');
+
+function getGameEngine(){
+    return GameEngine;
+}
+
+export default GameEngine;

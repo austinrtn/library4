@@ -1,3 +1,10 @@
+10/24/2024
+-Fixed moving objects to background
+-Added text items and text rendering
+-Simplified GameEngine.js by getting rid of 'mainEngine' variable, and instead of creating new instances of the class outside
+of the library, a 'Engine' instance is declared to the 'GameEngine' constant and that variable is exported.  All varaibles and functionality
+can be handled through that export.
+
 10/22/2024
 -Created 'items' folder and 'shapes' folder.
 -Moved all relvant files accordingly and gave each shape their own file.

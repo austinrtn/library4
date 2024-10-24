@@ -63,6 +63,16 @@ function renderItems(ctx, layer){
     ctx.clearRect(0,0,width,height)
     for(let item of layer.items){
       if(!item.isVisible) continue;
+
+      if(item.type == 'text') {        
+        ctx.font = item.font;
+        ctx.fillStyle = item.color;
+        if(item.stroke) ctx.strokeText(item.text, item.x, item.y);
+        else ctx.fillText(item.text, item.x, item.y)
+        ctx.closePath();
+        continue;
+      }
+      
       ctx.beginPath();
 
       if(item.shape == "rectangle") ctx.rect(item.x, item.y, item.width, item.height)
