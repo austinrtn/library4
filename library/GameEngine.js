@@ -38,8 +38,8 @@ export default class GameEngine {
         this.fps = 0;
 
         this.fpsTarget = 1000 / 70;
-        this.deltaMulti = 0;
         this.deltaTime = 0;
+        this.deltaTimeMultiplier = 0;
 
         this.items = [];
 
@@ -62,7 +62,7 @@ export default class GameEngine {
     }
 
     loop(timeStamp){
-        let engine = GameEngine.GetGameEngine();
+        let engine = GameEngine.MainEngine;
 
         if(!engine.looping){  
             window.requestAnimationFrame(engine.loop);
@@ -73,7 +73,7 @@ export default class GameEngine {
 
         engine.totalElapsed += timeStamp
         engine.deltaTime = (timeStamp - engine.lastTimestamp);
-        engine.deltaMulti = engine.deltaTime / engine.fpsTarget
+        engine.deltaTimeMultiplier = engine.deltaTime / engine.fpsTarget
         engine.lastTimestamp = timeStamp;
         engine.fps = Math.round(1000 / Number(engine.deltaTime))
 

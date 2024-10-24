@@ -3,12 +3,14 @@ import { Gravity } from "./Gravity.js";
 import { Jumping } from "./Jumping.js";
 import { MovementPath } from "./MovementPath.js";
 
-export const Mechanics = {
+const Mechanics = {
     Movement: Movement,
     Gravity: Gravity, 
     Jumping: Jumping,
     MovementPath, MovementPath
 }
+
+export default Mechanics
 
 export function inject(obj, data, mechanism){
     if(obj.injections.find(injection => injection === mechanism.Name)) return; //Check if dependency already injected

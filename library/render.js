@@ -48,7 +48,7 @@ export function removeFromLayer(item){
   item.renderLayer = null;
 }
 
-export function moveToLayer(item, layer){
+export function moveToLayer(item, layer){  
   item.renderLayer = layer;
   removeFromLayer(item);
   addToLayer(item, layer);

@@ -1,15 +1,15 @@
 import { inject } from "./Mechanics.js";
 import GameEngine from "../GameEngine.js";
 import { SideDetection } from "../classes/DetectionObj.js";
-import { getDistance, containsPointInSquare, point } from "../utils.js";
+import * as Util from "../utils.js";
 
 
 export class Movement {
     static Name = 'Movement';
     
     static DefaultData = {
-        vX: 0,
-        vY: 0,
+        vx: 0,
+        vy: 0,
 
         accelerate: true,
         accelerationSpeed: 0.01,
@@ -38,6 +38,7 @@ export class Movement {
         stopMoving: Movement.StopMoving,
         applyFriction: Movement.ApplyFriction,
         setMaxVel: Movement.setMaxVel,
+        stopAtTarget: Movement.StopAtTarget,
     }
 
     static Detections = [SideDetection]
@@ -47,75 +48,64 @@ export class Movement {
         else inject(obj, data, Movement);
     }
 
-    static Update(obj){
+    static Update(obj){        
         obj.move(obj);
         if(obj.target) obj.moveTo(obj);
         if(obj.friction) obj.applyFriction(obj)
     }
 
     static Move(obj){
-        if(!GameEngine.MainEngine.deltaMulti) return;
-        
-        if(obj.maxVels.right && obj.vX >= obj.maxVels.right) obj.vX = obj.maxVels.right;
-        else if(obj.maxVels.left && obj.vX <= -obj.maxVels.left) obj.vX = -obj.maxVels.left;
-        else if(obj.maxVels.down && obj.vY >= obj.maxVels.down) obj.vY = obj.maxVels.down;
-        else if(obj.maxVels.up && obj.vY <= -obj.maxVels.up) obj.vY = -obj.maxVels.up;
-        
+        if(!GameEngine.MainEngine.deltaTimeMultiplier) return;
+        /*
+        if(obj.maxVels.right && obj.vx >= obj.maxVels.right) obj.vx = obj.maxVels.right;
+        else if(obj.maxVels.left && obj.vx <= -obj.maxVels.left) obj.vx = -obj.maxVels.left;
+        else if(obj.maxVels.down && obj.vy >= obj.maxVels.down) obj.vy = obj.maxVels.down;
+        else if(obj.maxVels.up && obj.vy <= -obj.maxVels.up) obj.vy = -obj.maxVels.up;
+        */
+        obj.x += obj.vx * GameEngine.MainEngine.deltaTimeMultiplier;
+        obj.y += obj.vy * GameEngine.MainEngine.deltaTimeMultiplier;
 
-        obj.x += obj.vX * GameEngine.MainEngine.deltaMulti;
-        obj.y += obj.vY * GameEngine.MainEngine.deltaMulti;
-
-        if(obj.touchingWall && !obj.falling) obj.vX = 0;
-        if((obj.touchingFloor || obj.touchCeiling) && !obj.falling) obj.vY = 0;
+        if(obj.touchingWall && !obj.falling) obj.vx = 0;
+        if((obj.touchingFloor || obj.touchCeiling) && !obj.falling) obj.vy = 0;
     }
 
     static ApplyFriction(obj){
-        if(obj.beingMoved || obj.vX == 0) return;
+        if(obj.beingMoved || obj.vx == 0) return;
         
-        if(obj.vX < 0) obj.vX += obj.friction;
-        else obj.vX -= obj.friction;
+        if(obj.vx < 0) obj.vx += obj.friction;
+        else obj.vx -= obj.friction;
         
-        if(obj.vX < 0.1 && obj.vX > -0.1){
-            obj.vX = 0;
+        if(obj.vx < 0.1 && obj.vx > -0.1){
+            obj.vx = 0;
             return;
         }
     }
 
-    static MoveTo(obj, target){
-        let center;
-        if(target && !obj.target) obj.target = target;
-        else if(!target && obj.target) target = obj.target;
-
-        if(obj.shape === 'rectangle'){
-            center = obj.getCenter();
-            if(obj.sides.top || obj.sides.left || obj.sides.right || obj.sides.bottom) return;
-        } else if(obj.shape === 'circle'){
-            center = {x:obj.x, y:obj.y}
-        }
-
-        let dist = getDistance(center, target);
-        let xPer = -dist.x / dist.total; 
-        let yPer = -dist.y / dist.total;
+    static MoveTo(obj, target, stopAtTarget){
+        if(!target && obj.target) target = obj.target;
+        if(!target && !obj.target) return
+        obj.target = target
+        let vector = Util.vector(4, Util.getAngleByPoints(obj, target));
         
-        obj.vX = 5 * xPer;
-        obj.vY = 5 * yPer;
+        obj.vx = vector.dx;
+        obj.vy = vector.dy
+        
+        if(stopAtTarget) obj.target = target;
+    }
 
+    static StopAtTarget(obj){
+        console.log(Util.getDistance(obj, obj.target).total);
         
-        
-
-        if(obj.currentAcceleration < obj.maxAccele) obj.currentAcceleration += obj.accelerationSpeed
-
-        
-        
-        if(dist.total < 1){
-          obj.stopMoving(obj);
+        if(Util.getDistance(obj, obj.target).total < 3) {
+            console.log(1);
+            obj.stopMoving();
         }
     }
 
     static StopMoving(obj){
         if(obj.target) obj.target = null;
-        obj.vX = 0;
-        obj.vY = 0;
+        obj.vx = 0;
+        obj.vy = 0;
         obj.currentAcceleration = 0;
     }
 
