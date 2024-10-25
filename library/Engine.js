@@ -60,9 +60,9 @@ class Engine {
         if(engine.logFps) console.log(engine.fps);
 
         engine.totalElapsed += timeStamp
-        engine.deltaTime = (timeStamp - engine.lastTimestamp);
+        engine.deltaTime = (timeStamp - engine.lastTimeStamp);
         engine.deltaTimeMultiplier = engine.deltaTime / engine.fpsTarget
-        engine.lastTimestamp = timeStamp;
+        engine.lastTimeStamp = timeStamp;
         engine.fps = Math.round(1000 / Number(engine.deltaTime))
 
         if(engine.updateFunc) engine.updateFunc();
@@ -100,8 +100,8 @@ class Engine {
         for(var item of items){
             this.items = this.items.filter(removeItem => removeItem != item);
             Render.removeFromLayer(item)
-            if(collisionType == COLLISION_TYPES.QUADTREE) qtp.removeItem(item);
-            else if(collisionType == COLLISION_TYPES.CLASSIC) Collision.removeItem(item);
+            if(this.collisionType == 'quadtree') qtp.removeItem(item);
+            else if(this.collisionType == 'CLASSIC' && item.collidable) Collision.removeItem(item);
     
             if(item.controllable) Controller.removeFromController(item);
         }
