@@ -64,43 +64,49 @@ function renderItems(ctx, layer){
     for(let item of layer.items){
       if(!item.isVisible) continue;
 
-      if(item.type == 'text') {        
-        ctx.font = item.font;
-        ctx.fillStyle = item.color;
-        if(item.stroke) ctx.strokeText(item.text, item.x, item.y);
-        else ctx.fillText(item.text, item.x, item.y)
-        ctx.closePath();
-        continue;
-      }
-      
       ctx.beginPath();
 
-      if(item.shape == "rectangle") ctx.rect(item.x, item.y, item.width, item.height)
-      else if(item.shape == "circle") ctx.arc(item.x, item.y, item.r, 0, (2 * Math.PI));
-      else if(item.shape == "line"){
-        ctx.moveTo(item.x1, item.y1);
-        ctx.lineTo(item.x2, item.y2);
-        ctx.lineWidth = item.size;
-        ctx.strokeStyle = item.color;
-        ctx.stroke();
-        ctx.closePath();
+      if(item.shape == "line"){
+        renderLine(item, ctx);
+        continue;
+      }else if(item.type == 'text') {        
+        renderText(item,ctx);
         continue;
       }
+      else if(item.shape == "rectangle") ctx.rect(item.x, item.y, item.width, item.height)
+      else if(item.shape == "circle") ctx.arc(item.x, item.y, item.r, 0, (2 * Math.PI));
       
-    ctx.lineWidth = 1;
-    if(item.stroke){
-      ctx.stroke();
-      ctx.strokeStyle = item.strokeColor;
-    }
-    if(item.opacity) ctx.globalAlpha = item.opacity;
-    else ctx.globalAlpha = 1;
-    
-    if(item.fill){
-      ctx.fillStyle = item.color;
-      ctx.fill();
-    }
+      ctx.lineWidth = 1;
+      if(item.stroke){
+        ctx.stroke();
+        ctx.strokeStyle = item.strokeColor;
+      }
+      if(item.opacity) ctx.globalAlpha = item.opacity;
+      else ctx.globalAlpha = 1;
+      
+      if(item.fill){
+        ctx.fillStyle = item.color;
+        ctx.fill();
+      }
+      ctx.closePath();
+      }
+  }
+
+  function renderLine(item, ctx){
+    ctx.moveTo(item.x1, item.y1);
+    ctx.lineTo(item.x2, item.y2);
+    ctx.lineWidth = item.size;
+    ctx.strokeStyle = item.color;
+    ctx.stroke();
     ctx.closePath();
-    }
+  }
+
+  function renderText(item, ctx){
+    ctx.font = item.font;
+    ctx.fillStyle = item.color;
+    if(item.stroke) ctx.strokeText(item.text, item.x, item.y);
+    else ctx.fillText(item.text, item.x, item.y)
+    ctx.closePath();
   }
 
   function renderCircles(ctx,items){

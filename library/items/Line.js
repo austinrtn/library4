@@ -1,11 +1,11 @@
 import Item from "./Item.js";
 
 export default class Line extends Item{
-    constructor(x1, x2, y1, y2, color, size){
+    constructor(x1, y1, x2, y2, color, size){
         super('line');
         this.x1 = x1;
-        this.x2 = x2;
         this.y1 = y1;
+        this.x2 = x2;
         this.y2 = y2;
         this.color = color;
         this.size = size;
