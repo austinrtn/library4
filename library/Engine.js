@@ -33,9 +33,13 @@ class Engine {
         this.collisionType = 'CLASSIC'
     }
 
+    init(){
+
+    }
+
     start(func){
         Engine.Message();
-        
+        Render.setCanvasSize(300,300)
         if(func) func();
         window.requestAnimationFrame(this.loop);
     }
@@ -109,6 +113,7 @@ class Engine {
     removeCollision(item){
         Collision.removeItem(item)
     }
+
 }
 
 const GameEngine = new Engine();
