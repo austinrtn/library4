@@ -1,15 +1,13 @@
-import GameEngine from '../library/GameEngine.js';
+import GameEngine from '../library/Engine.js';
 import * as Util from '../library/utils.js';
 
-const ge = new GameEngine('circle');
 let cursorPos;
 
-
-ge.start(()=>{
+GameEngine.start(()=>{
     alert("Thank you for using Austin's Library!");   
 });
 
-ge.update(()=>{
+GameEngine.update(()=>{
 
 })
 
