@@ -1,4 +1,5 @@
 import Item from "./Item.js";
+import { getDistance } from "../utils.js";
 
 export default class Line extends Item{
     constructor(x1, y1, x2, y2, color, size){
@@ -19,7 +20,7 @@ export default class Line extends Item{
         return getDistance(
             {x: this.x1, y: this.y1},
             {x: this.x2, y: this.y2}
-        )
+        ).total
     }
 
     setBoundingBox(dimensions){
