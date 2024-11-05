@@ -1,3 +1,7 @@
+11/4/2024
+-Added rectangle to circle collision detection
+-Deleted "collision shape" variable and associated functions
+
 10/24/2024
 -Fixed moving objects to background
 -Added text items and text rendering

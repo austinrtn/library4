@@ -9,16 +9,11 @@ class Engine {
 
         if(!sentMsg){ 
             localStorage.setItem('message', true);
-            console.log(msg);
+            console.log(msg);   
         }
     }
 
-    constructor(collisionType){
-        if(collisionType != 'rectangle' && collisionType != 'circle')
-            alert("Please pass valid arguement for 'collisionType' for new Engine object ('rectangle' || 'circle)'")
-        
-        Collision.setCollisionType(collisionType);
-
+    constructor(){
         this.looping = true;
         this.logFps = false;
 
@@ -116,7 +111,7 @@ class Engine {
     }
 }
 
-const GameEngine = new Engine('circle');
+const GameEngine = new Engine();
 
 function getGameEngine(){
     return GameEngine;

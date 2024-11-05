@@ -1,15 +1,6 @@
 import { getDistance } from "../../utils.js";
 
-let collisionType = "";
 let collisionObjs = [];
-
-export function setCollisionType(type){
-    collisionType = type
-}
-
-export function getCollisionType(){
-    return collisionType;
-}
 
 export function addItem(item){
     if(!item) return;
@@ -29,7 +20,6 @@ export function removeItem(item){
 }
 
 export function update(){    
-    if(!collisionType) throw "Set propper render type in 'collision_detection.js'";
     for(var i = 0; i < collisionObjs.length; i++){
             for(var j = 0; j < collisionObjs.length; j++){
             if(i == j) continue;
