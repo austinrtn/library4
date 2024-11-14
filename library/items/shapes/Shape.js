@@ -9,6 +9,7 @@ export default class Shape extends Item{
         this.isVisible = true;
         this.stroke = true;
         this.strokeColor = "black";
+        this.strokeWidth = 1;
         this.fill = true;
         this.opacity = 1;
 

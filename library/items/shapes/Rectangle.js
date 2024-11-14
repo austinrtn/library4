@@ -24,7 +24,10 @@ export default class Rectangle extends Shape{
         };
     }
 
-
+    centerRect(){
+        this.x = this.x - this.width/2;
+        this.y = this.y - this.height/2;
+    }
 
     updateCollision(){
         let detections = structuredClone(this.detections)

@@ -1,3 +1,6 @@
+11/14/2024
+-Refactored GameEngine, CollisionDetection, and Render files, making them static classes
+
 11/4/2024
 -Added rectangle to circle collision detection
 -Deleted "collision shape" variable and associated functions

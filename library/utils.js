@@ -47,7 +47,7 @@ export function getCursorPosition(canvas, event) {
     return {x:x, y:y};
 }
 
-export function containsPointInSquare(obj, point){
+export function containsPointInSquare(point, obj){
     return (
         point.x >= obj.x &&
         point.x < obj.x + obj.width &&

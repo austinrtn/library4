@@ -55,15 +55,10 @@ export class Movement {
     }
 
     static Move(obj){
-        if(!GameEngine.MainEngine.deltaTimeMultiplier) return;
-        /*
-        if(obj.maxVels.right && obj.vx >= obj.maxVels.right) obj.vx = obj.maxVels.right;
-        else if(obj.maxVels.left && obj.vx <= -obj.maxVels.left) obj.vx = -obj.maxVels.left;
-        else if(obj.maxVels.down && obj.vy >= obj.maxVels.down) obj.vy = obj.maxVels.down;
-        else if(obj.maxVels.up && obj.vy <= -obj.maxVels.up) obj.vy = -obj.maxVels.up;
-        */
-        obj.x += obj.vx * GameEngine.MainEngine.deltaTimeMultiplier;
-        obj.y += obj.vy * GameEngine.MainEngine.deltaTimeMultiplier;
+        if(!GameEngine.deltaTimeMultiplier) return;
+   
+        obj.x += obj.vx * GameEngine.deltaTimeMultiplier;
+        obj.y += obj.vy * GameEngine.deltaTimeMultiplier;
 
         if(obj.touchingWall && !obj.falling) obj.vx = 0;
         if((obj.touchingFloor || obj.touchCeiling) && !obj.falling) obj.vy = 0;
