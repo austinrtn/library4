@@ -14,7 +14,7 @@ ECHO .
 
 rmdir library /s /q
 
-wget %url%
+powershell Invoke-Webrequest %url% -OutFile main.zip
 
 IF NOT EXIST main.zip (
 ECHO There was an issue downloading the file...
