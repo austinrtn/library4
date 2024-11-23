@@ -21,7 +21,7 @@ export default class Shape extends Item{
 
         this.boundingBox = null;
         this.collisions = [];
-
+        this.logCollisions = false;
         
         this.injections = [];
         this.detections = {}

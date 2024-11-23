@@ -13,7 +13,9 @@ export default class CollisionDetection{
             debugger
             return;    
         }
-        this.collisionObjs.push(item);
+
+        if(item.boundingBox) this.collisionObjs.push(item.boundingBox);
+        else this.collisionObjs.push(item);
     }
     
     static removeItem(item){
@@ -22,31 +24,35 @@ export default class CollisionDetection{
     
     static update(){    
         for(var i = 0; i < this.collisionObjs.length; i++){
-                for(var j = 0; j < this.collisionObjs.length; j++){
-                if(i == j) continue;
-                
-                let obj1 = this.collisionObjs[i];
-                let obj2 = this.collisionObjs[j];
-                
-                let colCheck;
-                if(obj1.shape == 'rectangle' && obj2.shape == 'rectangle') colCheck = this.rectangleCollisionCheck(obj1, obj2);
-                else if(obj1.shape == 'circle' && obj2.shape == 'circle') colCheck = this.circleCollisionCheck(obj1, obj2);
-                else if((obj1.shape == 'rectangle' && obj2.shape == 'circle') || 
-                            obj1.shape == 'circle' && obj2.shape == 'rectangle') colCheck = this.rectCircleCollisionCheck(obj1, obj2);
-                
-                if(colCheck) obj1.onCollision(obj2);
-              
-                if(obj1.collisions){
-                    let foundItem = obj1.collisions.find(item => item == obj2)
-                    if(colCheck && !foundItem){
-                        obj1.collisions.push(obj2);
-                    }
-                    else if(!colCheck && foundItem) obj1.collisions = obj1.collisions.filter(item => item != obj2);
-                }
-            }
+            for(var j = 0; j < this.collisionObjs.length; j++){
+            if(i == j) continue;
+            
+            let obj1 = this.collisionObjs[i];
+            let obj2 = this.collisionObjs[j];
+            
+            this.detectCollision(obj1,obj2);
         }
     }
+}
 
+static detectCollision(obj1, obj2){ 
+
+    let colCheck;
+        if(obj1.shape == 'rectangle' && obj2.shape == 'rectangle') colCheck = this.rectangleCollisionCheck(obj1, obj2);
+        else if(obj1.shape == 'circle' && obj2.shape == 'circle') colCheck = this.circleCollisionCheck(obj1, obj2);
+        else if((obj1.shape == 'rectangle' && obj2.shape == 'circle') || 
+                    obj1.shape == 'circle' && obj2.shape == 'rectangle') colCheck = this.rectCircleCollisionCheck(obj1, obj2);
+        
+        if(colCheck) obj1.onCollision(obj2);
+        
+        if(obj1.collisions && obj1.logCollisions){
+            let foundItem = obj1.collisions.find(item => item == obj2)
+            if(colCheck && !foundItem){
+                obj1.collisions.push(obj2);
+            }
+            else if(!colCheck && foundItem) obj1.collisions = obj1.collisions.filter(item => item != obj2);
+        }
+}
     
 static rectangleCollisionCheck(obj1, obj2){
     return !(
@@ -94,7 +100,7 @@ static rectCircleCollisionCheck(obj1, obj2){
     cornerDist += Math.sqrt(distY - rect.height/2);
 
     return (cornerDist <= ((circle.r/2)));
-}
+    }
 }
 
 

@@ -1,3 +1,4 @@
+import BoundingBox from "./BoundingBox.js";
 import Shape from "./Shape.js";
 
 export default class Rectangle extends Shape{
@@ -69,7 +70,7 @@ export default class Rectangle extends Shape{
        return;
     }
 
-    getBoundingbox(){
-         
+    setBoundingBox(size){
+        //this.boundingBox = new BoundingBox(this, size);
     }
 }
