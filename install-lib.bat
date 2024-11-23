@@ -19,7 +19,7 @@ cd %dir%
 
 ECHO Downloading Library...
 
-wget %url%
+powershell Invoke-Webrequest %url% -OutFile main.zip
 
 IF NOT EXIST main.zip (
 ECHO There was an issue downloading the file...
