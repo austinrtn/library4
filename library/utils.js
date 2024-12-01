@@ -92,3 +92,20 @@ export function vector(mag, angle){
         dy: mag * Math.sin(angle)
     }
 }
+
+function makeC(amnt){
+    let degree = 360/amnt;
+    let current = 0;
+
+    for(let i = 0; i < amnt; i++){
+        let x = spawn.r * Math.cos(current * (Math.PI/180)) + spawn.x;
+        let y = spawn.r * Math.sin(current * (Math.PI/180)) + spawn.y;
+
+        let p = new Circle(x,y,2,'red');
+        ge.createItems(false, p)
+
+        current += degree;
+        console.log(current);
+        
+    }
+}
