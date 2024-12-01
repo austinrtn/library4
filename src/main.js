@@ -1,4 +1,4 @@
-import GameEngine from '../library/Engine.js';
+import GameEngine from '../library/GameEngine.js';
 import * as Util from '../library/utils.js';
 
 let cursorPos;
