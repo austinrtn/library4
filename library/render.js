@@ -1,3 +1,4 @@
+import GameEngine from "./GameEngine.js";
 const backgroundCanvas = document.getElementById("background");
 const middlegroundCanvas = document.getElementById("middleground");
 const foregroundCanvas = document.getElementById("foreground");
@@ -8,6 +9,7 @@ let height = middlegroundCanvas.height;
 export default class Render{
   static background = {
     name: "background",
+    canvas: backgroundCanvas,
     ctx: backgroundCanvas.getContext("2d"),
     items: [],
     delete: function(item){this.items = this.items.filter(removeObj => removeObj !== item)}
@@ -15,6 +17,7 @@ export default class Render{
 
   static middleground = {
     name: "middleground",
+    canvas: middlegroundCanvas,
     ctx: middlegroundCanvas.getContext("2d"),
     items: [],
     delete: function(item){this.items = this.items.filter(removeObj => removeObj !== item)}
@@ -22,12 +25,17 @@ export default class Render{
 
   static foreground = {
     name: "foreground",
+    canvas: foregroundCanvas,
     ctx: foregroundCanvas.getContext("2d"),
     items: [],
     delete: function(item){this.items = this.items.filter(removeObj => removeObj !== item)}
   }
 
   static layers = [this.background, this.middleground, this.foreground];
+
+  static init(){
+    for(let layer of this.layers) this.setDemensions(layer);
+  }
 
   static getArrayFromLayer(targetLayer){
     for(var layer of this.layers){
@@ -58,16 +66,19 @@ export default class Render{
 
   static update(){
     for (const layer of this.layers) {
-      this.renderItems(layer.ctx, layer);
+      this.renderItems( layer);
     }
   }
 
     
-  static renderItems(ctx, layer){
+  static renderItems(layer){
+    let ctx = layer.ctx;
+    this.setDemensions(layer.canvas);
     ctx.clearRect(0,0,width,height)
+
     for(let item of layer.items){
       if(!item.isVisible) continue;
-
+      
       ctx.beginPath();
 
       if(item.opacity) ctx.globalAlpha = item.opacity;
@@ -95,6 +106,11 @@ export default class Render{
       }
       ctx.closePath();
     }
+  }
+
+  static setDemensions(canvas){
+    canvas.width = GameEngine.canvasDimenions.width ;
+    canvas.height = GameEngine.canvasDimenions.height;
   }
 
   static renderLine(item, ctx){

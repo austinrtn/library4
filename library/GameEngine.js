@@ -2,7 +2,7 @@ import * as Controller from "./controller.js";
 import CollisionDetection from "./CollisionDetection.js"
 import Render from "./Render.js";
 
-const canvas = document.getElementById('middleground');
+const middleground = document.getElementById('middleground');
 
 export default class GameEngine {
     static looping = true;
@@ -21,8 +21,13 @@ export default class GameEngine {
     static updateFunc = null;
 
     static collisionType = 'CLASSIC'
+    static canvas = middleground;
+    static canvasDimenions = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+    }
     
-    static Message(){
+    static sendWelcomeMsg(){
         let sentMsg = localStorage.getItem('message');
         let msg = "Austin's Platforming Library v0.05";
 
@@ -41,9 +46,24 @@ export default class GameEngine {
     }
    
     static start(func){
-        this.Message();
+        this.sendWelcomeMsg();
+        this.setCanavsDimenions(null, null, 0);
         if(func) func();
         window.requestAnimationFrame(this.loop);
+    }
+
+    static setCanavsDimenions(width, height, margin){
+        if(!width) width = this.canvasDimenions.width;
+        if(!height) height = this.canvasDimenions.height;
+        if(!margin) margin = 0;
+
+        this.canvasDimenions.width = width - margin;
+        this.canvasDimenions.height = height - margin;
+        Render.init();
+    }
+
+    static getCanavsDimenions(){
+        return this.canvasDimenions;
     }
 
     static update(func){

@@ -93,19 +93,17 @@ export function vector(mag, angle){
     }
 }
 
-function makeC(amnt){
-    let degree = 360/amnt;
+export function getSymetricalPointsInCircle(amount, circle){
+    let degree = 360/amount
     let current = 0;
+    let points = [];
+    for(let i = 0; i < amount; i++){
+        let x = circle.r * Math.cos(current * (Math.PI/180)) + circle.x;
+        let y = circle.r * Math.sin(current * (Math.PI/180)) + circle.y;
 
-    for(let i = 0; i < amnt; i++){
-        let x = spawn.r * Math.cos(current * (Math.PI/180)) + spawn.x;
-        let y = spawn.r * Math.sin(current * (Math.PI/180)) + spawn.y;
-
-        let p = new Circle(x,y,2,'red');
-        ge.createItems(false, p)
-
-        current += degree;
-        console.log(current);
-        
+        points.push(point(x,y));
+        current += degree;        
     }
+
+    return points;
 }
