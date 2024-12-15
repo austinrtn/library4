@@ -44,7 +44,7 @@ export default class Render{
     return null;
   }
 
-  static addToLayer(item, layer){
+  static addToLayer(item, layer){    
     if(!layer && item.renderLayer) layer = item.renderLayer;
     else if(!layer && !item.renderLayer) layer = 'middleground';
     if(!item.renderLayer) item.renderLayer = layer;

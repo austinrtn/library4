@@ -71,8 +71,15 @@ export default class GameEngine {
     }
 
     static pause(){
-        if(!this.looping) this.looping = true;
-        else this.looping = false;
+        if(!this.looping){
+            this.looping = true;
+            console.log('UNPAUSED');
+            
+        }
+        else{
+            this.looping = false;
+            console.log('PAUSED');
+        }
     }
 
     static loop(timeStamp){
@@ -83,7 +90,7 @@ export default class GameEngine {
         gm.lastTimeStamp = timeStamp;
         gm.fps = Math.round(1000 / Number(gm.deltaTime))
 
-        if(!gm.looping){  
+        if(!gm.looping || gm.fps < 5){  
             window.requestAnimationFrame(gm.loop);
             return;
         }
@@ -104,9 +111,9 @@ export default class GameEngine {
         if(items[0].length > 1) items = items[0];
         
         for(var item of items){
+            
             this.items.push(item)
-            Render.addToLayer(item);
-            if(item.type == 'text') continue;
+            if(item.shape || item.type == 'text') Render.addToLayer(item);
             
             if(this.collisionType == 'quadtree') qtp.addItem(item);
             else if(this.collisionType == 'CLASSIC' && collidable) this.addCollision(item);
@@ -121,7 +128,7 @@ export default class GameEngine {
 
         for(var item of items){
             this.items = this.items.filter(removeItem => removeItem != item);
-            Render.removeFromLayer(item)
+            if(item.renderLayer) Render.removeFromLayer(item)
             if(this.collisionType == 'quadtree') qtp.removeItem(item);
             else if(this.collisionType == 'CLASSIC' && item.collidable) CollisionDetection.removeItem(item);
     
@@ -136,4 +143,12 @@ export default class GameEngine {
     static removeCollision(item){
         CollisionDetection.removeItem(item)
     }
+}
+
+window.getItemById = (id) => {
+    for(let item of GameEngine.items) if(item.id === id) return item;
+}
+
+window.pause = ()=>{
+    GameEngine.pause();
 }

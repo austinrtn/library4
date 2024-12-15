@@ -13,6 +13,7 @@ export class Movement {
 
         accelerate: true,
         accelerationSpeed: 0.01,
+        magnitude: 1,
         maxAccele: 5,
         currentAcceleration: 0,
         friction: 0,
@@ -34,8 +35,8 @@ export class Movement {
     static Injections = {
         updateMovement: Movement.Update,
         move: Movement.Move,
-        moveTo: Movement.MoveTo,
-        stopMoving: Movement.StopMoving,
+        moveToPoint: Movement.MoveToPoint,
+ //       stopMoving: Movement.StopMoving,
         applyFriction: Movement.ApplyFriction,
         setMaxVel: Movement.setMaxVel,
         stopAtTarget: Movement.StopAtTarget,
@@ -76,16 +77,12 @@ export class Movement {
         }
     }
 
-    static MoveTo(obj, target, stopAtTarget){
-        if(!target && obj.target) target = obj.target;
-        if(!target && !obj.target) return
-        obj.target = target
-        let vector = Util.vector(4, Util.getAngleByPoints(obj, target));
+    static MoveToPoint(obj, target, magnitude){
+        if(!magnitude) magnitude = obj.magnitude;
+        let vector = Util.vector(magnitude, Util.getAngleByPoints(obj, target));
         
         obj.vx = vector.dx;
         obj.vy = vector.dy
-        
-        if(stopAtTarget) obj.target = target;
     }
 
     static StopAtTarget(obj){

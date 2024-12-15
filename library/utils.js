@@ -14,6 +14,22 @@ export function getDistanceRect(rect1, rect2){
     return getDistance(rect1.getCenter(), rect2.getCenter());
 }
 
+export function getRelativePosition(mainItem, subItem){
+    let xPos = 'centered';
+    let yPos = 'centered';
+
+    if(mainItem.x < subItem.x) xPos = 'left';
+    else if(mainItem.x > subItem.x) xPos = 'right';
+
+    if(mainItem.y < subItem.y) yPos = 'above';
+    else if(mainItem.y > subItem.y) yPos = 'below';
+
+    return {
+        xPos: xPos,
+        yPos: yPos
+    }
+}   
+
 export function getDiagnalVelocity(point1, point2, velocity){
     let dist = getDistance(point1, point2);
     let xForce = dist.x / dist.total;
@@ -32,6 +48,10 @@ export function removeFromArray(item, arrObj){
 
 export function rand(int1, int2){
     return Math.floor(int1 + Math.random() * int2);
+}
+
+export function randRange(int1, int2){
+    return Math.floor(int1 + Math.random() * (int2 - int1));
 }
 
 export function randNeg(int, chance){
@@ -58,8 +78,8 @@ export function containsPointInSquare(point, obj){
 
 
 export function containsPointInCircle(obj, point){
-    let d = Math.pow((point.x - this.x), 2) + Math.pow((point.y - this.y), 2);
-    return d <= (this.r * this.r);
+    let d = Math.pow((point.x - obj.x), 2) + Math.pow((point.y - obj.y), 2);
+    return d <= (obj.r * obj.r);
 }
 
 export function circleIntersects(obj1, obj2){
