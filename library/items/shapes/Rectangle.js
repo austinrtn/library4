@@ -8,7 +8,7 @@ export default class Rectangle extends Shape{
         this.y = y;
         this.width = width;
         this.height = height; 
-        this.color = color;
+        this.render.color = color;
 
         this.sides = {
             top: false, 

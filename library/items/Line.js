@@ -8,7 +8,7 @@ export default class Line extends Item{
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-        this.color = color;
+        this.render.color = color;
         this.size = size;
 
         this.collidable = false;

@@ -5,13 +5,15 @@ export default class Shape extends Item{
         super(type)
         this.shape = shape;
 
-        this.renderLayer = null;
-        this.isVisible = true;
-        this.stroke = true;
-        this.strokeColor = "black";
-        this.strokeWidth = 1;
-        this.fill = true;
-        this.opacity = 1;
+        this.render = {};
+        this.render.layer = null;
+        this.render.visible = true;
+        this.render.color = "black";
+        this.render.stroke = true;
+        this.render.strokeColor = "black";
+        this.render.strokeWidth = 1;
+        this.render.fill = true;
+        this.render.opacity = 1;
 
         this.collisions = null;//[]
         this.collidable = true;

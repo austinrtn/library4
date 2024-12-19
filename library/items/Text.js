@@ -12,20 +12,19 @@ export default class Text extends Item{
         this.x = x;
         this.y = y;
         this.size = size;
-        this.setFont(size, font)
-        
         this.text = text;
+        this.setFont(size, font) 
 
-        this.color = 'black';
-        this.strokeColor = 'black';
-        this.fill = true;
-        this.stroke = true;
-        this.strokeWidth = 1;
-        
-        this.opacity = 1;
         this.baseLine = 'middle';
         this.align = 'center';
-        this.isVisible = true;
+
+        this.render.visible = true;
+        this.render.color = 'black';
+        this.render.strokeColor = 'black';
+        this.render.fill = true;
+        this.render.stroke = true;
+        this.render.strokeWidth = 1;
+        this.render.opacity = 1;
     }
 
     setFont(size, font){

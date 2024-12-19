@@ -44,19 +44,19 @@ export default class Render{
     return null;
   }
 
-  static addToLayer(item, layer){    
-    if(!layer && item.renderLayer) layer = item.renderLayer;
-    else if(!layer && !item.renderLayer) layer = 'middleground';
-    if(!item.renderLayer) item.renderLayer = layer;
+  static addToLayer(item, layer){
+    if(!layer && item.render.layer) layer = item.render.layer;
+    else if(!layer && !item.render.layer) layer = 'middleground';
+    if(!item.render.layer) item.render.layer = layer;
     
-    item.moveToLayer = this.moveToLayer;
+    item.render.moveToLayer = this.moveToLayer;
     this.getArrayFromLayer(layer).items.push(item);
   }
 
   static removeFromLayer(item){  
-    this.getArrayFromLayer(item.renderLayer).delete(item);
-    item.moveToLayer = null;
-    item.renderLayer = null;
+    this.getArrayFromLayer(item.render.layer).delete(item);
+    item.render.moveToLayer = null;
+    item.render.layer = null;
   }
 
   static moveToLayer(item, layer){  
@@ -66,10 +66,9 @@ export default class Render{
 
   static update(){
     for (const layer of this.layers) {
-      this.renderItems( layer);
+      this.renderItems(layer);
     }
   }
-
     
   static renderItems(layer){
     let ctx = layer.ctx;
@@ -77,11 +76,11 @@ export default class Render{
     ctx.clearRect(0,0,width,height)
 
     for(let item of layer.items){
-      if(!item.isVisible) continue;
+      if(!item.render.visible) continue;
       
       ctx.beginPath();
 
-      if(item.opacity) ctx.globalAlpha = item.opacity;
+      if(item.render.opacity) ctx.globalAlpha = item.render.opacity;
       else ctx.globalAlpha = 1;
 
       if(item.shape == "line"){
@@ -94,14 +93,14 @@ export default class Render{
       else if(item.shape == "rectangle") ctx.rect(item.x, item.y, item.width, item.height)
       else if(item.shape == "circle") ctx.arc(item.x, item.y, item.r, 0, (2 * Math.PI));
       
-      if(item.stroke){
-        ctx.lineWidth = item.strokeWidth;
-        ctx.strokeStyle = item.strokeColor;
+      if(item.render.stroke){
+        ctx.lineWidth = item.render.strokeWidth;
+        ctx.strokeStyle = item.render.strokeColor;
         ctx.stroke();
       }
       
-      if(item.fill){
-        ctx.fillStyle = item.color;
+      if(item.render.fill){
+        ctx.fillStyle = item.render.color;
         ctx.fill();
       }
       ctx.closePath();
@@ -117,20 +116,20 @@ export default class Render{
     ctx.moveTo(item.x1, item.y1);
     ctx.lineTo(item.x2, item.y2);
     ctx.lineWidth = item.size;
-    ctx.strokeStyle = item.color;
+    ctx.strokeStyle = item.render.color;
     ctx.stroke();
     ctx.closePath();
   }
   
   static renderText(item, ctx){
     ctx.font = item.font;
-    ctx.fillStyle = item.color;
+    ctx.fillStyle = item.render.color;
     ctx.textAlign = item.align;
     ctx.textBaseline = item.baseLine;
-    ctx.lineWidth = item.strokeWidth;
+    ctx.lineWidth = item.render.strokeWidth;
     
-    if(item.stroke) ctx.strokeText(item.text, item.x, item.y);
-    if(item.fill) ctx.fillText(item.text, item.x, item.y)
+    if(item.render.stroke) ctx.strokeText(item.text, item.x, item.y);
+    if(item.render.fill) ctx.fillText(item.text, item.x, item.y)
     ctx.closePath();
   }
 }

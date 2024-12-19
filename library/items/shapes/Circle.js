@@ -6,7 +6,7 @@ export default class Circle extends Shape{
         this.x = x;
         this.y = y;
         this.r = r;
-        this.color = color;
+        this.render.color = color;
     }
 
 }
