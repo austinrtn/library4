@@ -3,6 +3,8 @@ import Render from "./Render.js";
 export default class RenderClone {
     constructor(parent){
         this.parent = parent;
+        this.xOffset = 0;
+        this.yOffset = 0;
 
         this.x = parent.x;
         this.y = parent.y;
