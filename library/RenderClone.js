@@ -10,7 +10,7 @@ export default class RenderClone {
         this.x = parent.x;
         this.y = parent.y;
         this.shape = parent.shape;
-        this.render = {...parent.render};
+        this.render = parent.render;
 
         if(this.shape == 'circle'){
             this.r = parent.r;

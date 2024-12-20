@@ -28,7 +28,6 @@ export default class Camera {
     update(){
         for(let item of this.items){
             this.scale(item);
-             
             item.x += item.xOffset;
             item.y += item.yOffset;
         }
