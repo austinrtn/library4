@@ -14,6 +14,10 @@ export function getDistanceRect(rect1, rect2){
     return getDistance(rect1.getCenter(), rect2.getCenter());
 }
 
+export function getArea(rect){
+    return rect.width * rect.height;
+}
+
 export function getRelativePosition(mainItem, subItem){
     let xPos = 'centered';
     let yPos = 'centered';

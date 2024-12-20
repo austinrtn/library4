@@ -2,6 +2,10 @@ import BoundingBox from "./BoundingBox.js";
 import Shape from "./Shape.js";
 
 export default class Rectangle extends Shape{
+    static getArea(rect){
+        return rect.width * rect.height;
+    }
+
     constructor(x,y,width,height,color,type){
         super("rectangle", type);
         this.x = x;
@@ -16,6 +20,10 @@ export default class Rectangle extends Shape{
             bottom: false,
             left: false
         }
+    }
+
+    getArea(){
+        return this.width * this.height;
     }
 
     getCenter(){

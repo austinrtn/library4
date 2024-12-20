@@ -1,88 +1,78 @@
-import { getDistance } from "./utils.js";
+import RenderClone from "./RenderClone.js";
+import {getArea} from './utils.js';
 
-export default class Camera{
-    constructor(zoomScale, panSensitivity){
-        if(!zoomScale) zoomScale = 1;
-        if(!panSensitivity) panSensitivity = 1;
+export default class Camera {
+    constructor(dimensions, parentDims, cont){
+        this.dimensions = {...dimensions};
+        this.parentDims = {...parentDims};
+        this.startingDims = {...dimensions};
 
-        this.zoomScale = zoomScale;
-        this.panSensitivity = panSensitivity;
+        this.container = cont;
+        this.zoom = 0;
         this.items = [];
-
-        this.zoomAmount = 0;
-        this.panAmount = {x: 0, y: 0}
     }
 
-    scale(point, inverted){        
-        let zoomScale = this.zoomScale;
-        if(inverted) zoomScale = -zoomScale;
-
-        this.items.forEach(item => {            
-            let distance = getDistance(item, point);
-            if(!inverted) item.r += (zoomScale) * item.r;
-            //else item.r += (-zoomScale) * item.r;
-
-            if(item.color == 'green') console.log('Green r: ' + item.r);
-            
-            if((distance.x < 0 && zoomScale > 0) || (distance.x > 0 && zoomScale < 0)) item.x -= Math.abs(distance.x * (zoomScale));           
-            else if((distance.x > 0 && zoomScale > 0) || (distance.x < 0 && zoomScale < 0)) item.x += Math.abs(distance.x * (zoomScale));  
-            
-            if((distance.y < 0 && zoomScale > 0) || (distance.y > 0 && zoomScale < 0)) item.y -= Math.abs(distance.y * (zoomScale));  
-            else if((distance.y > 0 && zoomScale > 0) || (distance.y < 0 && zoomScale < 0)) item.y += Math.abs(distance.y * (zoomScale));  
-            
-        });
-        
-        this.zoomAmount += zoomScale;
+    addItem(item){
+        item.camera = this;
+        this.items.push(new RenderClone(item));
     }
 
-    scale2(point, inverted){        
-        let zoomScale = this.zoomScale;
-        if(inverted) zoomScale = -zoomScale;
-
-        this.items.forEach(item => {            
-            let distance = getDistance(item, point);
-            item.r += zoomScale/2
-            if(item.color == 'green') console.log('Green r: ' + item.r);
-            
-            if((distance.x < 0 && zoomScale > 0) || (distance.x > 0 && zoomScale < 0)) item.x -= Math.abs( (zoomScale));           
-            else if((distance.x > 0 && zoomScale > 0) || (distance.x < 0 && zoomScale < 0)) item.x += Math.abs( (zoomScale));  
-            
-            if((distance.y < 0 && zoomScale > 0) || (distance.y > 0 && zoomScale < 0)) item.y -= Math.abs( (zoomScale));  
-            else if((distance.y > 0 && zoomScale > 0) || (distance.y < 0 && zoomScale < 0)) item.y += Math.abs( (zoomScale));  
-            
-        });
-        console.log(zoomScale);
-        
-        this.zoomAmount += zoomScale;
+    delete(item){
+        this.items = this.items.filter(delItem => item !== delItem);
     }
 
-    scaleReset(){
-        console.log(this.zoomAmount);
-        
-        this.items.forEach(item => {
-             item.r -= item.r * this.zoomAmount;
-            
-           if(item.color == 'green') console.log(item.r);
-           
-           
-        })
-        this.zoomAmount = 0;
-    }
-
-    pan(){
-
-    }
-
-    addItem(...items){
-       items.forEach(item => {
-        item.camera = {
-            radius: item.r,
+    update(){
+        for(let item of this.items){
+            this.translate(item);
         }
-        this.items.push(item);
-       })
     }
 
-    deleteItem(item){
-        this.items = this.items.filter(selected => selected !== item);
+    translate(item){             
+        let conversion = this.getConversion();   
+        item.x = this.dimensions.x + (item.parent.x * conversion.x);
+        item.y = this.dimensions.y + (item.parent.y * conversion.y);
+        if(item.shape == 'circle') item.r = (item.parent.r * conversion.total);
+        else if(item.shape == 'rectangle'){
+            item.width = item.parent.width * conversion.x;
+            item.height = item.parent.height * conversion.y;
+        }
+        
+    }
+
+    getConversion(){
+        return {
+            x: this.dimensions.width / this.parentDims.width,
+            y: this.dimensions.height / this.parentDims.height,
+            total:(this.dimensions.width * this.dimensions.height) / (this.parentDims.width * this.parentDims.height),
+        }
+    }
+
+    getDimensions(){
+        let x = (this.dimensions.width / this.parentDims.width);
+        let y = (this.dimensions.height / this.parentDims.height);
+
+        return {x:x, y:y};
+    }
+
+    addZoom(zoom){
+        let container = this.container
+        this.zoom += zoom;
+        let xZoom = zoom*100 * (this.startingDims.width/getArea(this.startingDims) );
+        let yZoom = zoom*100 * (this.startingDims.height/getArea(this.startingDims));
+        
+        this.dimensions.x = this.dimensions.x + -xZoom/2;
+        this.dimensions.y = this.dimensions.y + -yZoom/2;
+        this.dimensions.width = this.dimensions.width + xZoom;
+        this.dimensions.height = this.dimensions.height + yZoom; 
+
+        container.x = this.dimensions.x;
+        container.y = this.dimensions.y;
+        container.width = this.dimensions.width;
+        container.height = this.dimensions.height;
+    }
+
+    resetZoom(){
+        this.zoom = 0;
+        this.dimensions = {...this.startingDims};
     }
 }

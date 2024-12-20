@@ -76,8 +76,7 @@ export default class Render{
     ctx.clearRect(0,0,width,height)
 
     for(let item of layer.items){
-      if(!item.render.visible) continue;
-      
+      if(!item.render.visible) continue;      
       ctx.beginPath();
 
       if(item.render.opacity) ctx.globalAlpha = item.render.opacity;
