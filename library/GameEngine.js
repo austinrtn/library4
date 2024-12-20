@@ -108,14 +108,14 @@ export default class GameEngine {
         window.requestAnimationFrame(gm.loop);
     }
 
-    static createItems(collidable, ...items){
+    static createItems(render, collidable, ...items){
         if(!items || !items[0]) return;
         if(items[0].length > 1) items = items[0];
         
         for(var item of items){
             
             this.items.push(item)
-            if(item.shape || item.type == 'text') Render.addToLayer(item);
+            if(render && (item.shape || item.type == 'text')) Render.addToLayer(item);
             
             if(this.collisionType == 'quadtree') qtp.addItem(item);
             else if(this.collisionType == 'CLASSIC' && collidable) this.addCollision(item);

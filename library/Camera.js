@@ -2,15 +2,18 @@ import RenderClone from "./RenderClone.js";
 import {getArea} from './utils.js';
 
 export default class Camera {
-    constructor(dimensions, parentDims, zoomRange, panSpeed){
+    constructor(dimensions, parentDims, zoomRange, panSpeed, zoomSpeed){
         this.dimensions = {...dimensions};
         this.parentDims = {...parentDims};
         this.startingDims = {...dimensions};
         this.zoomRange  = zoomRange;
         this.panSpeed = panSpeed;
-
+        this.zoomSpeed = zoomSpeed;
+        
         this.zoom = 0;
         this.items = [];
+        console.log(this);
+        
     }
 
     addItem(item){
@@ -25,6 +28,7 @@ export default class Camera {
     update(){
         for(let item of this.items){
             this.scale(item);
+             
             item.x += item.xOffset;
             item.y += item.yOffset;
         }
@@ -41,7 +45,7 @@ export default class Camera {
     }
 
     scale(item){             
-        let conversion = this.getConversion();   
+        let conversion = this.getConversion();
         item.x = this.dimensions.x + (item.parent.x * conversion.x);
         item.y = this.dimensions.y + (item.parent.y * conversion.y);
         if(item.shape == 'circle') item.r = (item.parent.r * conversion.total);
@@ -52,11 +56,11 @@ export default class Camera {
     }
 
     getConversion(){
-        return {
-            x: this.dimensions.width / this.parentDims.width,
-            y: this.dimensions.height / this.parentDims.height,
-            total:(this.dimensions.width * this.dimensions.height) / (this.parentDims.width * this.parentDims.height),
-        }
+            let x = this.dimensions.width / this.parentDims.width;
+            let y = this.dimensions.height / this.parentDims.height;
+            let total = (x + y)/2;
+
+            return {x:x, y:y, total: total};
     }
 
     getDimensions(){
@@ -66,12 +70,14 @@ export default class Camera {
         return {x:x, y:y};
     }
 
-    addZoom(zoom){
+    addZoom(zoom, dir){
         if((this.zoom >= this.zoomRange.max && zoom > 0) ||
         (this.zoom <= this.zoomRange.min && zoom < 0)) return;
-
+        if(!zoom) zoom = this.zoomSpeed;
+        zoom *= dir;
+        
         this.zoom += zoom;
-        let xZoom = zoom*100 * (this.startingDims.width/getArea(this.startingDims) );
+        let xZoom = zoom*100 * (this.startingDims.width/getArea(this.startingDims));
         let yZoom = zoom*100 * (this.startingDims.height/getArea(this.startingDims));
         
         this.dimensions.x = this.dimensions.x + -xZoom/2;
