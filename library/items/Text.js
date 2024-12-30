@@ -18,6 +18,7 @@ export default class Text extends Item{
         this.baseLine = 'middle';
         this.align = 'center';
 
+        this.render = {};
         this.render.visible = true;
         this.render.color = 'black';
         this.render.strokeColor = 'black';

@@ -53,10 +53,12 @@ export default class Render{
     this.getArrayFromLayer(layer).items.push(item);
   }
 
-  static removeFromLayer(item){  
-    this.getArrayFromLayer(item.render.layer).delete(item);
-    item.render.moveToLayer = null;
-    item.render.layer = null;
+  static removeFromLayer(item){
+    let ar = this.getArrayFromLayer(item.render.layer);
+    if(!ar) return;
+    ar.delete(item);
+    delete item.render.moveToLayer;
+    delete item.render.layer;
   }
 
   static moveToLayer(item, layer){  
@@ -76,7 +78,9 @@ export default class Render{
     ctx.clearRect(0,0,width,height)
 
     for(let item of layer.items){
-      if(!item.render.visible) continue;      
+      if(!item.render.visible) continue;    
+      if((item.type == 'renderClone' && item.camera !== undefined) && (!item.camera.active)) continue;
+
       ctx.beginPath();
 
       if(item.render.opacity) ctx.globalAlpha = item.render.opacity;

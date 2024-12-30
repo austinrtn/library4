@@ -71,7 +71,7 @@ export function getCursorPosition(canvas, event) {
     return {x:x, y:y};
 }
 
-export function containsPointInSquare(point, obj){
+export function containsPointInRect(obj, point){
     return (
         point.x >= obj.x &&
         point.x < obj.x + obj.width &&
@@ -130,4 +130,26 @@ export function getSymetricalPointsInCircle(amount, circle){
     }
 
     return points;
+}
+
+export function getRandomPointInCircle(cirlce){
+    let angle = Math.random() * Math.PI*2;
+    let r = Math.random() * cirlce.r;
+    let x = cirlce.x + Math.cos(angle)*r;
+    let y = cirlce.y + Math.sin(angle)*r;
+
+    return {x: x, y:y};
+}
+
+export function checkArrayEq(ar1,ar2){
+    if(!ar1 || !ar2) return false;
+    if(ar1 === ar2) return true;
+    if(ar1.length == 0 & ar2.length == 0) return true;
+    if(ar1.length !== ar2.length) return false;
+
+    for(let i = 0; i < ar1.length; i++){
+        if(ar1[i] !== ar2[i]) return false;
+    }
+
+    return true;
 }

@@ -10,7 +10,6 @@ export default class CollisionDetection{
             throw ('Item Id: ' +item.id+ " had already been added to collisions");
             console.log(find);
             
-            debugger
             return;    
         }
 
@@ -36,11 +35,7 @@ export default class CollisionDetection{
 }
 
 static detectCollision(obj1, obj2){ 
-    let colCheck;
-    if(obj1.shape == 'rectangle' && obj2.shape == 'rectangle') colCheck = this.rectangleCollisionCheck(obj1, obj2);
-    else if(obj1.shape == 'circle' && obj2.shape == 'circle') colCheck = this.circleCollisionCheck(obj1, obj2);
-    else if((obj1.shape == 'rectangle' && obj2.shape == 'circle') || 
-                obj1.shape == 'circle' && obj2.shape == 'rectangle') colCheck = this.rectCircleCollisionCheck(obj1, obj2);
+    let colCheck = this.checkColliding(obj1,obj2);
     
     if(colCheck) obj1.onCollision(obj2);
     
@@ -52,6 +47,15 @@ static detectCollision(obj1, obj2){
         else if(!colCheck && foundItem) obj1.collisions = obj1.collisions.filter(item => item != obj2);
     }
     return colCheck;
+}
+
+static checkColliding(obj1,obj2){
+    let colCheck;
+    if(obj1.shape == 'rectangle' && obj2.shape == 'rectangle') colCheck = this.rectangleCollisionCheck(obj1, obj2);
+    else if(obj1.shape == 'circle' && obj2.shape == 'circle') colCheck = this.circleCollisionCheck(obj1, obj2);
+    else if((obj1.shape == 'rectangle' && obj2.shape == 'circle') || 
+                obj1.shape == 'circle' && obj2.shape == 'rectangle') colCheck = this.rectCircleCollisionCheck(obj1, obj2);
+    return colCheck
 }
     
 static rectangleCollisionCheck(obj1, obj2){

@@ -6,7 +6,7 @@ export default class Timer{
         this.endFunc = endFunc;
 
         this.lastTime = null;
-        this.timer = 0;
+        this.time = 0;
         this.active = true;
         this.finished = false;  
         this.deleteWhenFinished = false;
@@ -15,10 +15,10 @@ export default class Timer{
     update(){
         if(!this.active) return;
 
-        if(this.lastTime) this.timer += Date.now() - this.lastTime;
+        if(this.lastTime) this.time += Date.now() - this.lastTime;
         this.lastTime = Date.now();
         
-        if(this.timer >= this.targetTime) this.end();
+        if(this.time >= this.targetTime) this.end();
     }
 
     end(){        
@@ -31,7 +31,7 @@ export default class Timer{
 
     reset(){
         this.lastTime = null;
-        this.timer = 0;
+        this.time = 0;
         this.active = true;
         this.finished = false;
     }

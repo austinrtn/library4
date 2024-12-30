@@ -1,73 +1,37 @@
 import Item from "../Item.js";
 
-export default class Shape extends Item{
-    constructor(shape, type){
-        super(type)
-        this.shape = shape;
+class Shape{
+    static inject(shape, type, item){
+        Item.inject(item, type);
+        item.shape = shape;
 
-        this.render = {};
-        this.render.layer = null;
-        this.render.visible = true;
-        this.render.color = "black";
-        this.render.stroke = true;
-        this.render.strokeColor = "black";
-        this.render.strokeWidth = 1;
-        this.render.fill = true;
-        this.render.opacity = 1;
+        item.render = {};
+        item.render.layer = null;
+        item.render.visible = true;
+        item.render.color = "black";
+        item.render.stroke = true;
+        item.render.strokeColor = "black";
+        item.render.strokeWidth = 1;
+        item.render.fill = true;
+        item.render.opacity = 1;
 
-        this.collisions = null;//[]
-        this.collidable = true;
-        this.controllable = true;
-        this.dragable = true;
-        this.isBeingDragged = false;
+        item.collisions = null;//[]
+        item.collidable = true;
+        item.controllable = true;
+        item.dragable = true;
+        item.isBeingDragged = false;
 
-        this.boundingBox = null;
-        this.collisions = [];
-        this.logCollisions = false;
+        item.boundingBox = null;
+        item.collisions = [];
+        item.logCollisions = false;
         
-        this.injections = [];
-        this.detections = {}
-        this.detectionFunctions = [];
-        this.updateFunctions = [];
+        item.injections = [];
+        item.detections = {}
+        item.detectionFunctions = [];
+        item.updateFunctions = [];
 
-        this.markForDeletion = false;
-    }
-
-    update(){
-        this.updateLoop();
-    }
-
-    onCollision(item){
-
-    }
-
-    getBoundingbox(){
-        return this.boundingBox;
-    }
-
-    updateCollision(){
-        return;
-        for(var i = 0; i < this.collisions.length; i++){
-            if(!this.collisions[i].collidable) continue
-            let collisionItem = this.collisions[i];
-        }
-        return null;
-    }
-
-    updateLoop(){
-        for(let i = 0; i < this.updateFunctions.length; i++){
-            let func = this.updateFunctions[i];
-            func(this);
-        }
-         this.updateCollision();
-    }
-
-    loadDetections(...detectionObjs){
-        for(let dObj of detectionObjs){
-            for(const key in dObj.detections){
-                this.detections[key] = dObj.detections[key];
-            }
-            this.detectionFunctions.push(dObj.func);
-        }
+        item.markForDeletion = false;
     }
 }
+
+export default Shape;

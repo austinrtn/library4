@@ -26,6 +26,15 @@ export default class Rectangle extends Shape{
         return this.width * this.height;
     }
 
+    getDimensions(){
+        return {
+            x: this.x, 
+            y: this.y,
+            width: this.width,
+            height: this.height,
+        };
+    }
+
     getCenter(){
         return {
             x: this.x + this.width/2, 

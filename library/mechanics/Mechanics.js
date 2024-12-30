@@ -38,7 +38,6 @@ export function inject(obj, data, mechanism){
             obj[key] = value
         };
         
-        if(mechanism.Detections) for(let det of mechanism.Detections) obj.loadDetections(det);
         obj.injections.push(mechanism.name);
 }
 

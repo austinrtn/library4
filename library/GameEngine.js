@@ -1,4 +1,3 @@
-import * as Controller from "./controller.js";
 import CollisionDetection from "./CollisionDetection.js"
 import Render from "./Render.js";
 
@@ -99,7 +98,6 @@ export default class GameEngine {
 
         if(gm.updateFunc) gm.updateFunc();
 
-        Controller.update();
         if(gm.collisionType == 'QUADTREE') qtp.update();
         else if(gm.collisionType == 'CLASSIC') CollisionDetection.update();
         
@@ -113,14 +111,11 @@ export default class GameEngine {
         if(items[0].length > 1) items = items[0];
         
         for(var item of items){
-            
             this.items.push(item)
             if(render && (item.shape || item.type == 'text')) Render.addToLayer(item);
             
             if(this.collisionType == 'quadtree') qtp.addItem(item);
             else if(this.collisionType == 'CLASSIC' && collidable) this.addCollision(item);
-
-            if(item.controllable) Controller.addToController(item);
         }
     }
 
@@ -133,8 +128,6 @@ export default class GameEngine {
             if(item.renderLayer) Render.removeFromLayer(item)
             if(this.collisionType == 'quadtree') qtp.removeItem(item);
             else if(this.collisionType == 'CLASSIC' && item.collidable) CollisionDetection.removeItem(item);
-    
-            if(item.controllable) Controller.removeFromController(item);
         }
     }
 
