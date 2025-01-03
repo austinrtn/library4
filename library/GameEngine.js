@@ -1,3 +1,4 @@
+import GameItem from "./items/GameItem.js";
 import CollisionDetection from "./CollisionDetection.js"
 import Render from "./Render.js";
 
@@ -106,16 +107,27 @@ export default class GameEngine {
         window.requestAnimationFrame(gm.loop);
     }
 
-    static createItems(render, collidable, ...items){
+    static createItems(render, collidable,type, ...items){
         if(!items || !items[0]) return;
         if(items[0].length > 1) items = items[0];
         
         for(var item of items){
+            item.type = type;
             this.items.push(item)
             if(render && (item.shape || item.type == 'text')) Render.addToLayer(item);
             
             if(this.collisionType == 'quadtree') qtp.addItem(item);
             else if(this.collisionType == 'CLASSIC' && collidable) this.addCollision(item);
+        }
+    }
+
+    static createItemss(renderElement, render, camera, addToCollisions, type,...items){
+        if(!items || !items[0]) return;
+        if(items[0].length > 1) items = items[0];
+        
+        for(var item of items){
+            GameItem.inject(renderElement, render, camera, addToCollisions, type, item);
+            this.items.push(item);
         }
     }
 

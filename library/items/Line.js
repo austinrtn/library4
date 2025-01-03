@@ -1,21 +1,17 @@
 import Item from "./Item.js";
 import { getDistance, point } from "../utils.js";
 
-export default class Line extends Item{
+export default class Line{
     constructor(x1, y1, x2, y2, color, size){
-        super('line');
+        Item.inject('line', this);
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
 
-        this.render = {};
-        this.render.color = color;
         this.size = size;
 
         this.collidable = false;
-        this.render.visible = true;
-        this.shape = "line";
     }
 
     getPoints(){

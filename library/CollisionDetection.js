@@ -3,9 +3,19 @@ import { getDistance } from "./utils.js";
 export default class CollisionDetection{
     static collisionObjs = [];
 
+    static inject(item){
+        item.collidable = true;
+        item.collisions = [];
+        item.logCollisions = false;
+        
+        return item;
+    }
+
     static addItem(item){
         if(!item) return;
-        if(item.shape == "line") return;
+        
+        this.inject(item);
+
         if(this.collisionObjs.find(colItem => colItem == item)){
             throw ('Item Id: ' +item.id+ " had already been added to collisions");
             console.log(find);

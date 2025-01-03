@@ -1,10 +1,23 @@
 import Render from "./Render.js";
 import GameEngine from "./GameEngine.js";
+import GameItem from "./items/GameItem.js";
 
-export default class RenderClone {
-    constructor(parent, camera){
+export default class RenderClone extends GameItem{
+    constructor(parent){
+        console.log(parent.x);
+        
+        super(
+            parent.shape,
+            [parent.x, parent.y, parent.r],
+            true, 
+            null,
+            false, 
+            'renderClone'
+        );
+
         this.parent = parent;
-        this.camera = camera;
+
+        if(!parent.render || (parent.render && !parent.render.injected)) Render.inject(parent);
 
         this.xOffset = 0;
         this.yOffset = 0;
@@ -13,9 +26,6 @@ export default class RenderClone {
         this.y = parent.y;
         this.shape = parent.shape;
         
-        this.render = parent.render;
-        this.type = 'renderClone';
-
         if(this.shape == 'circle'){
             this.r = parent.r;
         } else if(this.shape == 'rectangle'){
@@ -24,7 +34,6 @@ export default class RenderClone {
         }
         
         parent.renderClone = this;
-        GameEngine.createItems(true, false, this);   
     }
 
     getCoords(){

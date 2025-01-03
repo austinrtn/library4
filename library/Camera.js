@@ -28,8 +28,10 @@ export default class Camera {
 
 
     addItem(item){
+        let renderClone = new RenderClone(item, this);
+        this.items.push(renderClone);
         item.camera = this;
-        this.items.push(new RenderClone(item, this));
+        renderClone.camera = this;
     }
 
     removeItem(item){        
@@ -40,7 +42,8 @@ export default class Camera {
 
     update(){
         if(!this.active) return;
-        for(let item of this.items){
+        for(let item of this.items){            
+            if(item.render != item.parent.render) item.render = item.parent.render;
             this.scale(item);
             item.x += this.xPanOffset;
             item.y += this.yPanOffset;            

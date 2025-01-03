@@ -6,6 +6,14 @@ const foregroundCanvas = document.getElementById("foreground");
 let width = middlegroundCanvas.width;
 let height = middlegroundCanvas.height;
 
+const RENDER_ELEMENTS = Object.freeze({
+  CIRCLE: 0,
+  RECTANGLE: 1,
+  RECT: 1,
+  LINE: 2,
+  TEXT: 3,
+})
+
 export default class Render{
   static background = {
     name: "background",
@@ -37,6 +45,10 @@ export default class Render{
     for(let layer of this.layers) this.setDemensions(layer);
   }
 
+  static getRenderElements(){
+    return RENDER_ELEMENTS;
+  }
+
   static getArrayFromLayer(targetLayer){
     for(var layer of this.layers){
       if(layer.name == targetLayer) return layer;
@@ -45,25 +57,44 @@ export default class Render{
   }
 
   static addToLayer(item, layer){
-    if(!layer && item.render.layer) layer = item.render.layer;
-    else if(!layer && !item.render.layer) layer = 'middleground';
-    if(!item.render.layer) item.render.layer = layer;
-    
-    item.render.moveToLayer = this.moveToLayer;
+    if(!layer) layer = 'middleground';
+    if(!item.render || (item.render && !item.render.injected)) this.inject(item, layer);    
     this.getArrayFromLayer(layer).items.push(item);
+  }
+
+  static inject(item, layer){    
+    if(!layer) layer = 'middleground';
+    if(!item.render) item.render = {};
+
+    const renderInjection = {
+      layer: layer,
+      visible: true,
+      color: "black",
+      stroke: true,
+      strokeColor: "black",
+      strokeWidth: 1,
+      fill: true,
+      opacity: 1,
+      injected: true,
+
+      moveToLayer: this.moveToLayer,
+    };
+
+    for(let key in renderInjection){ if(!item.render[key]) item.render[key] = renderInjection[key];};
+    
+    return item;
   }
 
   static removeFromLayer(item){
     let ar = this.getArrayFromLayer(item.render.layer);
     if(!ar) return;
     ar.delete(item);
-    delete item.render.moveToLayer;
-    delete item.render.layer;
+    delete item.render;
   }
 
-  static moveToLayer(item, layer){  
-    Render.removeFromLayer(item);
-    Render.addToLayer(item, layer);  
+  static moveToLayer(layer){  
+    Render.removeFromLayer(this);
+    Render.addToLayer(this, layer);  
   }
 
   static update(){
@@ -75,7 +106,7 @@ export default class Render{
   static renderItems(layer){
     let ctx = layer.ctx;
     this.setDemensions(layer.canvas);
-    ctx.clearRect(0,0,width,height)
+    ctx.clearRect(0,0,width,height);
 
     for(let item of layer.items){
       if(!item.render.visible) continue;    

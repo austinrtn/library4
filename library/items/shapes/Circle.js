@@ -1,17 +1,22 @@
-import Shape from "./Shape.js";
-
 export default class Circle{
-    static inject(x,y,r,color, type, item){
-        Shape.inject('circle', type, item);
+    static inject(x,y,r, item){        
         item.x = x;
         item.y = y;
         item.r = r;
-        item.render.color = color;
 
-
+        item.shape = 'circle';
+        item.setDimensions = this.setDimensions;
+        item.getDimensions = this.getDimensions;
+        return item;
     }
 
-    static getDimensions (){
+    static setDimensions(x,y,r){
+        this.x = x;
+        this.y = y;
+        this.r = r;
+    }
+
+    static getDimensions(){
         return {
             x: this.x,
             y: this.y,

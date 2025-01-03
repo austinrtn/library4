@@ -1,11 +1,11 @@
 import Item from "./Item.js";
 
-export default class Text extends Item{
+export default class Text{
     static defaultSize = 12;
     static defaultFont = 'Serif';
 
     constructor(x,y,size,font,text){
-        super('text')
+        Item.inject(this,'text');
         if(!size) size = Text.defaultSize;
         if(!font) font = Text.defaultFont;
 

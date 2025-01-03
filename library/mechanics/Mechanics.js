@@ -13,6 +13,8 @@ const Mechanics = {
 export default Mechanics
 
 export function inject(obj, data, mechanism){
+    if(!obj.updateFunctions) obj.updateFunctions = [];
+    if(!obj.injections) obj.injections = [];
     if(obj.injections.find(injection => injection === mechanism.Name)) return; //Check if dependency already injected
 
     if(mechanism.Dependencies){ //INSTALL DEPENDENCIES
