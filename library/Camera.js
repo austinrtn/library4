@@ -28,10 +28,13 @@ export default class Camera {
 
 
     addItem(item){
+        
         let renderClone = new RenderClone(item, this);
         this.items.push(renderClone);
         item.camera = this;
         renderClone.camera = this;
+        console.log(renderClone);
+        
     }
 
     removeItem(item){        

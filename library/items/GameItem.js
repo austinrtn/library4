@@ -13,10 +13,10 @@ function selectRenderElement(renderElement, dims, item){
     
     if(Array.isArray(dims)) dims = getDimObject(renderElement, dims); 
     
-    if(renderElement == 'circle') Circle.inject(dims.x, dims.y, dims.r, item);
-    else if(renderElement == 'rectangle') Rectangle.inject(dims.x, dims.y, dims.w, dims.h,item);
-    else if(renderElement == 'line') Line.inject(item);
-    else if(renderElement == 'text') Text.inject(item);
+    if(renderElement == 'CIRCLE') Circle.inject(dims.x, dims.y, dims.r, item);
+    else if(renderElement == 'RECTANGLE') Rectangle.inject(dims.x, dims.y, dims.width, dims.height,item);
+    else if(renderElement == 'LINE') Line.inject(item);
+    else if(renderElement == 'TEXT') Text.inject(item);
 }
 
 function checkRenderElement(renderElement){
@@ -43,8 +43,8 @@ function getDimObject(renderElement, dims){
 
     if(renderElement == 'CIRCLE') newDims.r = dims[2];
     else if(renderElement == 'RECTANGLE' || renderElement == 'RECT'){
-        newDims.w = dims[2];
-        newDims.h = dims[3];
+        newDims.width = dims[2];
+        newDims.height = dims[3];
     }else if(renderElement == 'LINE'){};
 
     return newDims;

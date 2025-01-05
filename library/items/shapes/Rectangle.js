@@ -10,7 +10,6 @@ class Rectangle{
         item.setDimensions = this.setDimensions;
         item.getDimensions = this.getDimensions;
         item.getCenter = this.getCenter;
-        item.getRect = this.getRect;
 
         return item;
     }

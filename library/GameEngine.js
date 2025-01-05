@@ -107,7 +107,7 @@ export default class GameEngine {
         window.requestAnimationFrame(gm.loop);
     }
 
-    static createItems(render, collidable,type, ...items){
+    static createItems(renderElement, dimensions, render, camera, addToCollisions, type, ...items){
         if(!items || !items[0]) return;
         if(items[0].length > 1) items = items[0];
         

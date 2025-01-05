@@ -3,12 +3,10 @@ import GameEngine from "./GameEngine.js";
 import GameItem from "./items/GameItem.js";
 
 export default class RenderClone extends GameItem{
-    constructor(parent){
-        console.log(parent.x);
-        
+    constructor(parent){        
         super(
             parent.shape,
-            [parent.x, parent.y, parent.r],
+            [parent.x,parent.y,parent.width,parent.height],
             true, 
             null,
             false, 
@@ -34,6 +32,8 @@ export default class RenderClone extends GameItem{
         }
         
         parent.renderClone = this;
+        console.log(this);
+        
     }
 
     getCoords(){
